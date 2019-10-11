@@ -9,6 +9,9 @@ import Cart from '../pages/Cart.vue';
 import Classify from '../pages/Classify.vue';
 import Discover from '../pages/Discover.vue';
 import Mine from '../pages/Mine.vue';
+import Login from '../pages/Login.vue';
+import Privacy from '../pages/Privacy.vue';
+import Agreement from '../pages/Agreement.vue';
 
 let router = new VueRouter({
     routes:[
@@ -40,6 +43,21 @@ let router = new VueRouter({
             name: 'mine',
             path: '/mine',
             component: Mine,
+        },
+        {
+            name: 'login',
+            path: '/login',
+            component: Login,
+        },
+        {
+            name: 'privacy',
+            path: '/privacy',
+            component: Privacy,
+        },
+        {
+            name: 'agreement',
+            path: '/agreement',
+            component: Agreement,
         },
     ]
 })
