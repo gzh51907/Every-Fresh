@@ -293,7 +293,6 @@ export default {
       data: { data }
     } = await axios.get(this.api);
     this.JXdata = data;
-
     // data.forEach((item, index) => {
     //   item.articles.forEach((item, index) => {
     //     if (index != 0) {

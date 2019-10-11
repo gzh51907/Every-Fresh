@@ -35,6 +35,7 @@
       </div>
     </div>
     <router-view />
+    <div style="width:100%;height:45px"></div>
     <div class="footer">
       <div class="weui-tabbar mall-nav">
         <!-- <router-link to="/home"> -->
@@ -88,6 +89,9 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
+a{
+  color:#999;
+}
 .mall-home-head {
   line-height: 2.375rem;
   font-size: 0.875rem;
