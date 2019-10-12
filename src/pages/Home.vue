@@ -2,7 +2,7 @@
   <div class="category product-category-swiper">
     <div class="category-nav">
       <section class="category-nav-wrap">
-        <van-tabs style="width: auto;" title-active-color="#ff4891" color="#ff4891">
+        <van-tabs style="width: auto;" title-active-color="#ff4891" color="#ff4891" @click="changeCon">
           <!-- <van-tab 
                         v-for="index in listdate" 
                         :title="index.name" 
@@ -235,7 +235,7 @@
               </div>
             </div>
           </van-tab>
-          <van-tab v-for="index in listdate" :key="index.internal_id" :title="index.name">
+          <van-tab v-for="index in listdate" :key="index.internal_id" :title="index.name" >
             <div
               class="product-list-item-wrap"
               v-for="item in yxccdate"
