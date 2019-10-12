@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-11 17:08:46
+ * @LastEditTime: 2019-10-12 08:59:49
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -153,7 +153,6 @@ export default {
     console.log(this.$refs.head.style.cssText);
   },
   async created() {
-<<<<<<< Updated upstream
     // this.api =
     //   "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=1";
     // // axios.get(api).then(res => {
@@ -163,10 +162,8 @@ export default {
       data: { data }
     } = await axios.get(this.api);
     this.JXdata = data;
-=======
     this.getdata();
 
->>>>>>> Stashed changes
     // data.forEach((item, index) => {
     //   item.articles.forEach((item, index) => {
     //     if (index != 0) {
