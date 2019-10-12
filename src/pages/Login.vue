@@ -11,10 +11,10 @@
 
           <div class="userbox">
             <el-form-item label="用户名" prop="username" >
-              <el-input v-model="ruleForm.username" placeholder="请输入您的手机号" id="userinput" style="width:230px" status-icon:false></el-input>
+              <el-input v-model="ruleForm.username" placeholder="请输入您的手机号" id="userinput" style="width:230px" status-icon:false ref='tel'></el-input>
               
             </el-form-item>
-            <div id="dl-del">X</div>
+            <div id="del">X</div>
           </div>
 
           <div class="psdbox">
@@ -27,15 +27,20 @@
 
         </el-form>
 
-        <p style="text-align:center;font-size:14px;" >登录注册表示您同意<el-link type="danger" style="margin-top:-5px;" @click.native="goto('privacy')">《用户协议》</el-link>和<el-link type="danger" style="margin-top:-5px;"  @click.native="goto('agreement')">《隐私政策》</el-link></p>
+        <p style="text-align:center;" >登录注册表示您同意
+        <el-link type="danger" style="margin-top:-5px;font-size:.186667rem;" @click.native="goto('privacy')">《用户协议》</el-link>
+        和
+        <el-link type="danger" style="margin-top:-5px;font-size: .186667rem;"  @click.native="goto('agreement')">《隐私政策》</el-link>
+        </p>
 
-        <p style="text-align:center;font-size:10px;color:#969696">未注册过的用户将直接未您创建优鲜账户</p>
-        </el-main>
+        <p style="text-align:center;font-size:.133333rem;color:#969696">未注册过的用户将直接未您创建优鲜账户</p>
+         </el-main>
     </div>
 </template>
 <script>
 export default{
   data() {
+     
     return {
       ruleForm: {
         username: "",
@@ -61,6 +66,7 @@ export default{
             alert('submit!');
             let {username, password} = this.ruleForm;
             this.$router.replace({name:'mine',params:{username}});
+            
           } else {
             console.log('error submit!!');
             return false;
@@ -70,20 +76,29 @@ export default{
       goto(name){
         this.$router.push({name});
       }
+    },
+    mounted(){
+     let phone = document.getElementById('userinput');
+     let dlDel = document.getElementById('del');
+     dlDel.onclick = function () {
+      phone.value = '';
+      dlDel.style = "display:none";
+    } 
     }
+    
 }
 </script>
 
 <style>
   .title{
     color:#484246; 
-    margin-left:15px;
-    margin-bottom:50px;
+    margin-left:.2rem;
+    margin-bottom:4.666667rem
   }
  .userbox,
  .psdbox{
     width:100%;
-    height:50px;
+    height:3.266667rem;
     border-bottom:#eeeeee 1px solid;
     border-left-width:0px;
     border-right-width:0px;
@@ -100,7 +115,7 @@ export default{
     border-top-width:0px;
 
  }
- #dl-del{
+ #del{
     display: inline-block;
     width: 25px;
     height: 25px;
