@@ -4,6 +4,10 @@
             <div style="width:100%;height:300px;background:#58bc58;position: relative;">
                 <el-button type="danger" plain @click.native="goto('login')" id="logbtn">用户登录 </el-button>
             </div>
+            <div>
+                {{username}}的主页
+            </div>
+
         </el-main>
     </div>
 </template>
@@ -11,13 +15,17 @@
     export default{
         data(){
             return{
-
+                username:''
             }
         },
         methods:{
             goto(name){
                 this.$router.push({name});
             }
+        },
+        created(){
+            // this.username = this.$route.query.username
+             this.username = this.$route.params.username;
         }
     }
 </script>
