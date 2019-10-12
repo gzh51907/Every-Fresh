@@ -2,25 +2,35 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-10 22:11:15
+ * @LastEditTime: 2019-10-11 17:08:46
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <div id="app">
+  <div id="app-box" ref="head">
     <div class="content">
       <div class="head">
         <div class="tab-image">
           <img src="../assets/img3/author-default.png" alt />
         </div>
         <div class="tab">
-          <el-tabs v-model="activeName" style="marign-left:12px;marign-right:12px;" @tab-click='handleclick'>
-            <el-tab-pane label="精选" name="first" @click="jingxuan">
-              <div class="article-list" v-for="item in JXdata" :key="item.module.id">
+          <el-tabs
+            v-model="activeName"
+            style="marign-left:12px;marign-right:12px;"
+            @tab-click="handleclick"
+          >
+            <el-tab-pane
+              :label="item.label"
+              :name="item.name"
+              v-for="item in elpane"
+              :key="item.name"
+             
+            >
+              <div class="article-list" v-for="(item,index) in JXdata" :key="index">
                 <div class="list-wrap">
-                  <div class="list-header">
+                  <!-- <div class="list-header">
                     <p class="list-title">{{item.module.name}}</p>
                     <p class="list-desc">{{item.module.subtitle}}</p>
-                  </div>
+                  </div>-->
                   <div class="article-big">
                     <div class="big-wrap" v-for="item in item.articles" :key="item.title">
                       <div class="article-card">
@@ -64,172 +74,7 @@
                           </div>
                         </div>
                       </div>
-                    </div> -->
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="快手食谱" name="second" @click.native="kuaishou">
-                <div class="article-list" v-for="item in JXdata" :key="item.module.id">
-                <div class="list-wrap">
-                  <div class="list-header">
-                    <p class="list-title">{{item.module.name}}</p>
-                    <p class="list-desc">{{item.module.subtitle}}</p>
-                  </div>
-                  <div class="article-big">
-                    <div class="big-wrap" v-for="item in item.articles" :key="item.title">
-                      <div class="article-card">
-                        <div class="follow-user-item">
-                          <img :src="item.authorPhoto" alt />
-                          <span>{{item.nickname}}</span>
-                        </div>
-                        <div class="article_cover">
-                          <img :src="item.titlePic" alt class="article_header_img" />
-                        </div>
-                        <h3 class="article_title">{{item.title}}</h3>
-                        <div class="article_controls">
-                          <div class="control-item article_reading">浏览 {{item.fontReadNo}}</div>
-                          <div class="control-btn-area">
-                            <i class="el-icon-share"></i>
-                            分享
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- <div class="big-wrap" v-for="item in item.articles" :key="item.articleId">
-                      <div class="asc-wrap">
-                        <div class="article-image">
-                          <img :src="item.titlePic" alt />
-                        </div>
-                        <div class="article-info">
-                          <div class="follow-user-item">
-                            <img :src="item.authorPhoto" alt />
-                            <span class="user_name">{{item.nickname}}</span>
-                          </div>
-                          <p class="article-title oveflow-ellipsis-line2">{{item.title}}</p>
-                          <div class="article-tool">
-                            <div class="tool-left">
-                              <span class="article-tool-view">浏览 {{item.fontReadNo}}}</span>
-                            </div>
-                            <div class="tool-right">
-                              <span class="acticle-tool-share">
-                                <i class="el-icon-share"></i>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="甜点饮品" name="third" @click="tiandian">
-                   <div class="article-list" v-for="item in JXdata" :key="item.module.id">
-                <div class="list-wrap">
-                  <div class="list-header">
-                    <p class="list-title">{{item.module.name}}</p>
-                    <p class="list-desc">{{item.module.subtitle}}</p>
-                  </div>
-                  <div class="article-big">
-                    <div class="big-wrap" v-for="item in item.articles" :key="item.title">
-                      <div class="article-card">
-                        <div class="follow-user-item">
-                          <img :src="item.authorPhoto" alt />
-                          <span>{{item.nickname}}</span>
-                        </div>
-                        <div class="article_cover">
-                          <img :src="item.titlePic" alt class="article_header_img" />
-                        </div>
-                        <h3 class="article_title">{{item.title}}</h3>
-                        <div class="article_controls">
-                          <div class="control-item article_reading">浏览 {{item.fontReadNo}}</div>
-                          <div class="control-btn-area">
-                            <i class="el-icon-share"></i>
-                            分享
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- <div class="big-wrap" v-for="item in item.articles" :key="item.articleId">
-                      <div class="asc-wrap">
-                        <div class="article-image">
-                          <img :src="item.titlePic" alt />
-                        </div>
-                        <div class="article-info">
-                          <div class="follow-user-item">
-                            <img :src="item.authorPhoto" alt />
-                            <span class="user_name">{{item.nickname}}</span>
-                          </div>
-                          <p class="article-title oveflow-ellipsis-line2">{{item.title}}</p>
-                          <div class="article-tool">
-                            <div class="tool-left">
-                              <span class="article-tool-view">浏览 {{item.fontReadNo}}}</span>
-                            </div>
-                            <div class="tool-right">
-                              <span class="acticle-tool-share">
-                                <i class="el-icon-share"></i>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="生活百科" name="fourth" @tab-click="baike">
-                   <div class="article-list" v-for="item in JXdata" :key="item.module.id">
-                <div class="list-wrap">
-                  <div class="list-header">
-                    <p class="list-title">{{item.module.name}}</p>
-                    <p class="list-desc">{{item.module.subtitle}}</p>
-                  </div>
-                  <div class="article-big">
-                    <div class="big-wrap" v-for="item in item.articles" :key="item.title">
-                      <div class="article-card">
-                        <div class="follow-user-item">
-                          <img :src="item.authorPhoto" alt />
-                          <span>{{item.nickname}}</span>
-                        </div>
-                        <div class="article_cover">
-                          <img :src="item.titlePic" alt class="article_header_img" />
-                        </div>
-                        <h3 class="article_title">{{item.title}}</h3>
-                        <div class="article_controls">
-                          <div class="control-item article_reading">浏览 {{item.fontReadNo}}</div>
-                          <div class="control-btn-area">
-                            <i class="el-icon-share"></i>
-                            分享
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- <div class="big-wrap" v-for="item in item.articles" :key="item.articleId">
-                      <div class="asc-wrap">
-                        <div class="article-image">
-                          <img :src="item.titlePic" alt />
-                        </div>
-                        <div class="article-info">
-                          <div class="follow-user-item">
-                            <img :src="item.authorPhoto" alt />
-                            <span class="user_name">{{item.nickname}}</span>
-                          </div>
-                          <p class="article-title oveflow-ellipsis-line2">{{item.title}}</p>
-                          <div class="article-tool">
-                            <div class="tool-left">
-                              <span class="article-tool-view">浏览 {{item.fontReadNo}}}</span>
-                            </div>
-                            <div class="tool-right">
-                              <span class="acticle-tool-share">
-                                <i class="el-icon-share"></i>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
+                    </div>-->
                   </div>
                 </div>
               </div>
@@ -254,36 +99,61 @@ export default {
       JXdata: [],
       firstList: [],
       anthor: [],
-      api:'https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=1',
+      api:
+        "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=1",
+      elpane: [
+        {
+          label: "精选",
+          name: "first"
+        },
+        {
+          label: "快手食谱",
+          name: "second"
+        },
+        {
+          label: "甜点食品",
+          name: "third"
+        },
+        {
+          label: "生活百科",
+          name: "fourth"
+        }
+      ]
     };
   },
-//   watch:{
-//       if(this.activeName)
-//   },
-  methods:{
-      handleclick(tab,event){
-            console.log(tab,event);
-            if(tab.$el == 'div#pane-second.el-tab-pane'){
-                this.kuaishou();
-            }
-      },    
-      jingxuan(){
-          console.log(1);
-      },
-      kuaishou(){
-          console.log(1);
-          this.api='https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=21';
-      },
-        tiandian(){
-            this.api = 'https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=5'
-        },
-        baike(){
-            console.log(tab,event);
-            this.api = 'https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=6'
-        }
+  methods: {
+    async getdata() {
+      let {
+        data: { data }
+      } = await axios.get(this.api);
+      this.JXdata = data;
+    },
+    handleclick(tab, event) {
+      if (this.activeName == "second") {
+        this.api =
+          "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=21";
+        this.getdata();
+      } else if (this.activeName == "third") {
+        // this.$refs.head.style.display = 'none';
+        this.api =
+          "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=5";
+        this.getdata();
+      } else if (this.activeName == "fourth") {
+        this.api =
+          "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=6";
+        this.getdata();
+      } else if (this.activeName == "first") {
+        this.api =
+          "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=1";
+        this.getdata();
+      }
+    }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$refs.head.style.cssText);
+  },
   async created() {
+<<<<<<< Updated upstream
     // this.api =
     //   "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=1";
     // // axios.get(api).then(res => {
@@ -293,6 +163,10 @@ export default {
       data: { data }
     } = await axios.get(this.api);
     this.JXdata = data;
+=======
+    this.getdata();
+
+>>>>>>> Stashed changes
     // data.forEach((item, index) => {
     //   item.articles.forEach((item, index) => {
     //     if (index != 0) {
@@ -306,7 +180,7 @@ export default {
   }
 };
 </script>
-<style scoped lang='scss'>
+<style lang='scss'>
 * {
   margin: 0;
   padding: 0;
@@ -318,7 +192,7 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
-  #app {
+  #app-box {
     height: 100%;
     width: 100%;
     .content {
@@ -331,16 +205,17 @@ body {
         background: #fff;
         z-index: 999;
         border-bottom: 1px solid #f5f5f5;
-        position: fixed;
         top: 0;
         left: 0;
         display: flex;
         align-items: center;
         position: relative;
         .tab-image {
-          position: absolute;
+          position: fixed;
+          left: 5px;
           width: 24px;
           height: 24px;
+          z-index: 1000;
           img {
             height: 100%;
             width: 100%;
@@ -348,15 +223,27 @@ body {
           }
         }
         .tab {
+          //  position: fixed;
           //      margin-left:12px;
           // margin-right: 12px;
+          z-index: 999;
           width: 100%;
           height: 100%;
           // padding-left: 20px;
           .el-tabs {
+            overflow: auto;
             margin-left: 12px;
             margin-right: 12px;
-
+            .el-tabs__header {
+              position: fixed;
+              top: 38px;
+              z-index: 999;
+              background: #fff;
+              width: 100%;
+              padding-left: 30px;
+            }
+            
+          
             .article-list {
               .list-wrap {
                 margin: 0 15px;
@@ -562,6 +449,7 @@ body {
               }
             }
           }
+
         }
       }
     }
