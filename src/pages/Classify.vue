@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-11 21:39:33
+ * @LastEditTime: 2019-10-12 09:16:45
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -71,8 +71,8 @@ import axios from "axios";
 import Vue from "vue";
 import Vant from "vant";
 import "vant/lib/index.css";
-
-Vue.use(Vant);
+import { Sidebar, SidebarItem,Tab, Tabs } from 'vant';
+Vue.use(Sidebar).use(SidebarItem).use(Tab).use(Tabs);
 import categoryList from "../assets/js-Data/categories"; //数据
 import classify1 from "../assets/js-Data/classify";
 import c2 from "../assets/js-Data/c2";
@@ -86,6 +86,9 @@ export default {
       goodsdata: "",
       dataname:'',
     };
+  },
+  components:{
+    
   },
   methods: {
     getClassify() {
