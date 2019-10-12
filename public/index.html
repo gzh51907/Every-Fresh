@@ -7,12 +7,12 @@
  -->
 <!DOCTYPE html>
 <html lang="en">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="icon" href="<%= BASE_URL %>favicon.ico">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <style>
     * {
       margin: 0;
@@ -23,14 +23,16 @@
       text-decoration: none;
     }
   </style>
-  <title>myapp</title>
-  <body>
-    <noscript>
-      <strong>We're sorry but myapp doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-  </body>
 </head>
+<title>myapp</title>
+
+<body>
+  <noscript>
+    <strong>We're sorry but myapp doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+</body>
+
 <script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
 <script>
   $(function () {
@@ -41,7 +43,49 @@
 
       $(this).children(0).children(0).addClass('weui-tabbar__icon_active');
     })
+
+    $('#userinput').bind('input propertychange', function () {
+      //当输入框有内容时显示删除键
+      if ($(" #userinput ").val()) {
+        $(" #dl-del ").css('display','block');
+        console.log(1)
+      } else if (!$(" #userinput ").val()) {
+        //当输入框没有有内容时隐藏删除键
+        $(" #dl-del ").css('display','none');
+        console.log(2)
+      }
+    });
+
+    //  $("#dl-del").click(function(){
+    //   $("#userinput").val() = null;
+    //  })
+    // $('#userinput').input(function () {
+    //   //当输入框有内容时显示删除键
+    //   if ($(" #userinput ").val()) {
+    //     $(" #userinput ").css("display:block");
+    //   } else if (!$(" #userinput ").val()) {
+    //     //当输入框没有有内容时隐藏删除键
+    //     $(" #userinput ").css("display:none");
+    //   }
+    // })
+    let phone = document.getElementById('userinput');
+    let dlDel = document.getElementById('dl-del');
+    // console.log(phone);
+    // // phone.oninput = function(){
+    // //   if(phone.value){
+    // //     dlDel.style = "display:block";
+    // //   }else if(!phone.value){
+    // //     dlDel.style = "display:none";
+    // //   }
+    // // }
+
+    dlDel.onclick = function () {
+      phone.value = '';
+      dlDel.style = "display:none";
+    } 
+
   })
 
 </script>
+
 </html>

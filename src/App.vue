@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="header">
+    <div class="header" v-show="!(path ==='/login') ">
       <div id="home-head" class="mall-home-head">
         <div class="adv-bar-blank-filler" style="height: 2.375rem;"></div>
         <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 2;">
@@ -36,7 +36,7 @@
     </div>
     <router-view />
     <div style="width:100%;height:45px"></div>
-    <div class="footer">
+    <div class="footer" v-show="!(path ==='/login') ">
       <div class="weui-tabbar mall-nav">
         <!-- <router-link to="/home"> -->
           <a href="javascript:;" class="weui-tabbar__item">
@@ -85,7 +85,24 @@
 </template>
 
 <script>
-export default {};
+export default {
+
+  data(){
+    return {
+      path:''
+    }
+  },
+  //       // 判断路由
+        mounted() {
+          this.path = this.$route.path;
+          console.log(this.$route.path)
+        },
+        watch:{
+            $route(to,from){
+                this.path = to.path
+            }
+        }
+}
 </script>
 
 <style lang="scss" scoped>
