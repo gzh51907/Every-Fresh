@@ -1,0 +1,12 @@
+{
+    "product":[
+        {
+            "id":1,
+            "username":"zwh"
+        },
+        {
+            "id":2,
+            "username":"gsq"
+        }
+    ]
+}

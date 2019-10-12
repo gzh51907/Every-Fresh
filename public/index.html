@@ -48,12 +48,10 @@
     $('#userinput').bind('input propertychange', function () {
       //当输入框有内容时显示删除键
       if ($(" #userinput ").val()) {
-        $(" #del ").css('display','block');
-
+        $(" #dl-del ").css('display','block');
       } else if (!$(" #userinput ").val()) {
         //当输入框没有有内容时隐藏删除键
-        $(" #del ").css('display','none');
-
+        $(" #dl-del ").css('display','none');
       }
     });
 
