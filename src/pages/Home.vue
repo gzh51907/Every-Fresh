@@ -2,7 +2,7 @@
   <div class="category product-category-swiper">
     <div class="category-nav">
       <section class="category-nav-wrap">
-        <van-tabs style="width: auto;" title-active-color="#ff4891" color="#ff4891" @click="changeCon">
+        <van-tabs style="width: auto;" title-active-color="#ff4891" color="#ff4891" >
           <!-- <van-tab 
                         v-for="index in listdate" 
                         :title="index.name" 
