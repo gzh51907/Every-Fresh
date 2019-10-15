@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-10 15:57:35
+ * @LastEditTime: 2019-10-10 15:57:35
+ * @LastEditors: your name
+ -->
 <template>
   <div>
     <div class="header" v-show="!(path ==='/login') ">
@@ -35,7 +42,7 @@
       </div>
     </div>
     <router-view />
-    <div style="width:100%;height:45px"></div>
+    <!-- <div style="width:100%;height:45px"></div> -->
     <div class="footer" v-show="!(path ==='/login') ">
       <div class="weui-tabbar mall-nav">
         <!-- <router-link to="/home"> -->

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-12 17:57:42
+ * @LastEditTime: 2019-10-14 19:35:29
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -20,17 +20,33 @@
         </div>
         <!-- </div> -->
         <div class="right-con">
-          <van-tabs>
-            <van-tab v-for="item in classify" :title="item.name" :key="item.name">
-              <div class="product-item" v-for="(item,index) in goodsdata" :key="index">
-                <div class="product-item-box">
+   
+            <!-- <van-tab v-for="item in classify.secondGroupInfo" :title="item.name" :key="item.name"> -->
+              <!-- <div class="product-item" v-for='(item,index) in item' v-if="item.cellType==5" :key="index">
+                
+              </div> -->
+              <div class="fold-category-container">
+                <div class="list-container">
+                  <div class="item-span" @click="toGoods(classify.secondGroupInfo)" v-for='item in classify.secondGroupInfo' :key="item.name" :data-second-group-id='item.secondGroupId'>{{item.name}}</div>
+                </div>
+                <div class="img-box">
+                  <img class="gray-bg" src="../assets/img3/gray-bg.png" alt="">
+                  <div class="arrow-img arrow-img-white">
+                    <img src="../assets/img3/arrow-down.png" alt="" class="arrow-img">
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+              <div class="product-item" v-for="(item,index) in classify.cellList" :key="index">
+                <div class="category-title" v-if="item.cellType==5" :data-id='item.secondGroup'>{{item.titleInfo.title}}</div>
+                <div class="product-item-box" v-if='item.cellType==7'>
                   <div class="line">
                     <div class="line-split"></div>
                   </div>
                   <div class="single-columns-item category-single-category">
                     <div class="product-img-wrap">
                       <img :src="item.normalProducts.image" alt class="product-img" />
-                      <div
+                      <div v-if='item.normalProducts.promotionTag.name'
                         class="product-promote-tag"
                         style="color: rgb(255, 255, 255);
                         background: linear-gradient(46deg, rgb(250, 4, 51), rgb(250, 82, 30));"
@@ -58,8 +74,8 @@
                   </div>
                 </div>
               </div>
-            </van-tab>
-          </van-tabs>
+         </div>
+       
         </div>
       </div>
     </div>
@@ -70,28 +86,32 @@
 import axios from "axios";
 import Vue from "vue";
 import "vant/lib/index.css";
-import { Sidebar, SidebarItem,Tab, Tabs } from 'vant';
-Vue.use(Sidebar).use(SidebarItem).use(Tab).use(Tabs);
+import { Sidebar, SidebarItem, Tab, Tabs } from "vant";
+Vue.use(Sidebar)
+  .use(SidebarItem)
+  .use(Tab)
+  .use(Tabs);
 import categoryList from "../assets/js-Data/categories"; //数据
-import classify1 from "../assets/js-Data/classify";
+import c1 from "../assets/js-Data/c1";
 import c2 from "../assets/js-Data/c2";
-import c3 from '../assets/js-Data/c3';
-import c4 from '../assets/js-Data/c4';
-import c5 from '../assets/js-Data/c5';
-import c6 from '../assets/js-Data/c6';
-import c7 from '../assets/js-Data/c7';
-import c8 from '../assets/js-Data/c8';
-import c9 from '../assets/js-Data/c9';
-import c10 from '../assets/js-Data/c10';
-import c11 from '../assets/js-Data/c11';
-import c12 from '../assets/js-Data/c12';
-import c13 from '../assets/js-Data/c13';
-import c14 from '../assets/js-Data/c14';
-import c15 from '../assets/js-Data/c15';
-import c16 from '../assets/js-Data/c16';
-import c17 from '../assets/js-Data/c17';
-import c18 from '../assets/js-Data/c18';
-import c19 from '../assets/js-Data/c19';
+import c3 from "../assets/js-Data/c3";
+import c4 from "../assets/js-Data/c4";
+import c5 from "../assets/js-Data/c5"; 
+import c6 from "../assets/js-Data/c6";
+import c7 from "../assets/js-Data/c7";
+import c8 from "../assets/js-Data/c8";
+import c9 from "../assets/js-Data/c9";
+import c10 from "../assets/js-Data/c10";
+import c11 from "../assets/js-Data/c11";
+import c12 from "../assets/js-Data/c12";
+import c13 from "../assets/js-Data/c13";
+import c14 from "../assets/js-Data/c14";
+import c15 from "../assets/js-Data/c15";
+import c16 from "../assets/js-Data/c16";
+import c17 from "../assets/js-Data/c17";
+import c18 from "../assets/js-Data/c18";
+import c19 from "../assets/js-Data/c19";
+// console.log(c1);
 export default {
   data() {
     return {
@@ -99,74 +119,67 @@ export default {
       activeKey: 0,
       classify: "",
       goodsdata: "",
-      dataname:'',
     };
   },
-  components:{
-    
-  },
+  components: {},
   methods: {
-    getClassify() {
-    //   console.log(1);
-      this.classify = classify1.classify.data.secondGroupInfo;
-      // this.goodsdata = '';
-      this.goodsdata = classify1.classify.data.cellList.filter(
-        (item, index) => item.cellType != 5
-      );
-      console.log(classify1,c2);
-    },
     shift(index) {
-      if (index == 0) {
-        //  this.classify = classify1.classify.data.secondGroupInfo;
-      // this.goodsdata = '';
-      this.goodsdata = classify1.classify.data.cellList.filter(
-        (item, index) => item.cellType != 5
-      );
-      } else if (index == 1) {
-        this.goodsdata = c2.c2.data.cellList.filter((item,index)=>item.cellType!=5);
-      // this.classify = c2.c2.data.secondGroupInfo;
-      }else if(index == 2){
-      // this.classify = c3.c3.data.secondGroupInfo;
-        this.goodsdata = c3.c3.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 3){
-        this.goodsdata = c4.c4.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 4){
-        this.goodsdata = c5.c5.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 5){
-        this.goodsdata = c6.c6.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 6){
-        this.goodsdata = c7.c7.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 7){
-        this.goodsdata = c8.c8.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 8){
-        this.goodsdata = c9.c9.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 9){
-        this.goodsdata = c10.c10.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 10){
-        this.goodsdata = c11.c11.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 11){
-        this.goodsdata = c12.c12.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 12){
-        this.goodsdata = c13.c13.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 13){
-        this.goodsdata = c14.c14.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 14){
-        this.goodsdata = c15.c15.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 15){
-        this.goodsdata = c16.c16.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 16){
-        this.goodsdata = c17.c17.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 17){
-        this.goodsdata = c18.c18.data.cellList.filter((item,index)=>item.cellType!=5);
-      }else if(index == 18){
-        this.goodsdata = c19.c19.data.cellList.filter((item,index)=>item.cellType!=5);
+      if(index == 0){
+        this.classify = c1.c1.data;
+      }else if(index ==1){
+        this.classify = c2.c2.data; console.log(this.classify);
+      }else if(index ==2){
+        this.classify = c3.c3.data; console.log(this.classify);
+      }else if(index ==3){
+        this.classify = c4.c4.data; console.log(this.classify);
+      }else if(index ==4){
+        this.classify = c5.c5.data; console.log(this.classify);
+      }else if(index ==5){
+        this.classify = c6.c6.data; console.log(this.classify);
+      }else if(index ==6){
+        this.classify = c7.c7.data; console.log(this.classify);
+      }else if(index ==7){
+        this.classify = c8.c8.data; console.log(this.classify);
+      }else if(index ==8){
+        this.classify = c9.c9.data; console.log(this.classify);
+      }else if(index ==9){
+        this.classify = c10.c10.data; console.log(this.classify);
+      }else if(index ==10){
+        this.classify = c11.c11.data; console.log(this.classify);
+      }else if(index ==11){
+        this.classify = c12.c12.data; console.log(this.classify);
+      }else if(index ==12){
+        this.classify = c13.c13.data; console.log(this.classify);
+      }else if(index ==13){
+        this.classify = c14.c14.data; console.log(this.classify);
+      }else if(index ==14){
+        this.classify = c15.c15.data; console.log(this.classify);
+      }else if(index ==15){
+        this.classify = c16.c16.data; console.log(this.classify);
+      }else if(index ==16){
+        this.classify = c17.c17.data; console.log(this.classify);
+      }else if(index ==17){
+        this.classify = c18.c18.data; console.log(this.classify);
+      }else if(index ==18){
+        this.classify = c19.c19.data; console.log(this.classify);
       }
+    },
+    toGoods(groupId){
+      let groups = document.getElementsByClassName('category-title');
+      
+      let newGroups = Array.from(groups);
+newGroups.forEach(item=>{
+        console.log(item.getAttribute('data-id'))
+        if(item.dataset.secondGroupId == groupId){
+          console.log(item)
+        }
+      })
     }
   },
   created() {
-      this.categoryData = categoryList.categoryList.data;
-      this.dataname = classify1.classify.data.secondGroupInfo;
-      this.getClassify();
+    this.categoryData = categoryList.categoryList.data;
+    this.classify = c1.c1.data;
+    
   }
 };
 </script>
@@ -214,8 +227,65 @@ body {
         flex: 1;
         height: 600px;
         overflow-y: scroll;
+        .fold-category-container{
+          background-color: #fff;
+          width: 17.125rem;
+          position: relative;
+          // top: 20px;
+          // z-index: 99;
+          .list-container{
+            position: relative;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            .item-span{
+              font-size: 0.75rem;
+              color: #474245;
+              height: 2.25rem;
+              line-height: 2.25rem;
+              padding: 0 0.625rem;
+              white-space: nowrap;
+            }
+          }
+          .img-box{
+            position: absolute;
+            font-size: 0;
+            top:0.5rem;
+            right: 0;
+            .gray-bg{
+              display: inline-block;
+              width:1.875rem;
+              height: 1.125rem;
+            }
+            .arrow-img{
+              display: inline-block;
+              width: 1.125rem;
+              height: 1.125rem;
+              background: #fff;
+              
+            }
+          }
+        }
+        .container{
+          
+          position: relative;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          flex: 1;
         .product-item {
           color: #fff;
+          .category-title{
+            padding-top: 0.8125rem;
+            padding-bottom: 0.3125rem;
+            height: 2.0625rem;
+            line-height: 1.0625rem;
+            font-size: 0.75rem;
+            color: #969696;
+            text-indent: 0.9375rem;
+          }
           .product-item-box {
             .line {
               box-sizing: border-box;
@@ -342,9 +412,9 @@ body {
             }
           }
         }
+         }
       }
     }
   }
 }
-
 </style>

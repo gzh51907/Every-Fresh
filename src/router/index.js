@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-10 17:05:33
+ * @LastEditTime: 2019-10-14 16:23:06
+ * @LastEditors: Please set LastEditors
+ */
 import Vue from 'vue';
 
 import VueRouter from 'vue-router';
@@ -12,6 +19,7 @@ import Mine from '../pages/Mine.vue';
 import Login from '../pages/Login.vue';
 import Privacy from '../pages/Privacy.vue';
 import Agreement from '../pages/Agreement.vue';
+import Article from '../pages/Article.vue';
 
 let router = new VueRouter({
     routes:[
@@ -59,6 +67,11 @@ let router = new VueRouter({
             path: '/agreement',
             component: Agreement,
         },
+        {
+            name:'article',
+            path:'/discover/article',
+            component:Article
+        }
     ]
 })
 export default router;
