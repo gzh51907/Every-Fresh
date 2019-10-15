@@ -2,7 +2,7 @@
  * @Description: In User Settings Edita
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-14 21:52:50
+ * @LastEditTime: 2019-10-15 17:47:00
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -46,48 +46,132 @@
           <div class="location-arrow"></div>
         </div>
 
-        <p class="C-empty-text">你还没有添加任何商品</p>
+        
       </div>
-      <div class="C-block-wrap C-group-wrap">
+      <p class="C-empty-text" v-if="titleShow">你还没有添加任何商品</p>
+      <div class="C-block-wrap C-group-wrap" v-else>
         <div class="C-group-header-wrap">
           <div class="C-group-header">
-            <div class="C-checkbox selected">
+            <!-- <div class="C-checkbox selected">
               <i class="C-checkbox-c"></i>
-            </div>
+            </div> -->
+            <input type="checkbox" class="C-checkbox" v-model="checkAll">
             <p class="C-group-title">2小时达</p>
             <span class="C-group-header-right">包邮</span>
           </div>
         </div>
+
         <div class="C-group-content">
           <div class="C-group-header-wrap"></div>
-          <div class="C-group-item-list">
-            <div class="P-item-wrap-cart">
-              <div class="P-item-content flex shop-item-index-0">
-                <div class="C-checkbox selected">
-                  <i class="C-checkbox-c"></i>
-                </div>
+          <div class="C-group-item-list" v-if="cartList ">
+            <div class="P-item-wrap cart" v-for="(item,index) in cartList" :key="index">
+              <div
+                class="P-item-content flex shop-item-index-0"
+                style="transition: -webkit-transform 200ms ease 0s;
+                 transform: translate3d(0px, 0px, 0px);"
+              >
+                <input type="checkbox" class="C-checkbox" v-model="checkAll">
                 <div class="P-item-image">
                   <img
                     class="P-item-img"
                     width="70"
                     height="70"
-                    src="https://image.missfresh.cn/b75a836fe1f1465f872a52300cc48fda.jpeg?iopcmd=convert&dst=webp"
+                    :src="item.normalProducts.image"
                     alt
                   />
                 </div>
                 <div class="P-item-info">
-                  <p class="P-item-info-line P-item-name">久久丫黑鸭鸭脖80g*3</p>
+                  <p
+                    class="P-item-info-line P-item-name"
+                    style="width:70%;"
+                  >{{item.normalProducts.name}}</p>
                   <p class="P-item-info-line P-item-tags">
                     <span
                       class="P-item-tag place-tag"
                       style="background-color:rgb(255,255,255)"
-                    >限时秒杀</span>
+                      v-if="item.normalProducts.promotionTag.name"
+                    >{{item.normalProducts.promotionTag.name}}</span>
                   </p>
+                  <div class="P-item-info-line P-item-price flex" style="color:rgb(255,72,145)">
+                    <span class="P-item-price-unit" style="color:rgb(255,72,145)">￥</span>
+                    <span
+                      class="P-item-price-price"
+                      style="color:rgb(255,72,145)"
+                    >{{item.normalProducts.pricePro.noVip.price/100}}</span>
+                    <span
+                      class="P-item-price-origin"
+                      style="color:rgb(150,150,150)"
+                      v-if="item.normalProducts.pricePro.vip"
+                    >￥{{item.normalProducts.pricePro.vip.price/100}}</span>
+                  </div>
+                  <div class="P-item-controller flex">
+                    <span
+                      class="P-item-controller-btn sub"
+                      @click="sub(item.normalProducts.sku)"
+                    >-</span>
+                    <span class="P-item-controller-num">{{item.normalProducts.showOrder}}</span>
+                    <span
+                      class="P-item-controller-btn add"
+                      @click="add(item.normalProducts.sku)"
+                    >+</span>
+                  </div>
                 </div>
+              </div>
+
+              <div
+                @click="removeItem(item.normalProducts.sku)"
+                class="P-item-delete flex"
+                style="opacity:1"
+              >
+                <span>删除</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="open-vip-wrap" v-if="!titleShow">
+        <div class="open-vip-box flex-box">
+          <div class="open-vip-box-top">
+            <img
+              class="open-vip-icon"
+              src="https://j-image.missfresh.cn/img_20181205175918600.png"
+              alt
+            />
+          </div>
+          <div class="open-vip-box-bot-r">
+            <span class="open-text">
+              <i style="color:#ff4891;">￥6/月</i>
+              立即开通
+            </span>
+            <span class="select-box">
+              <img src="https://j-image.missfresh.cn/img_20181206163746310.png" alt />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="price-list-panel order-promotion-wrap" v-if="!titleShow">
+        <ul class="price-list-ul">
+          <li class="rela item-content-totalprice">
+            <p class="abs li-left">商品总价</p>
+            <p class="li-right">
+              <span class="el active">￥{{totalPrice/100}}</span>
+            </p>
+          </li>
+          <li class="rela">
+            <p class="abs li-left">商品实付</p>
+            <p class="li-right">￥{{totalPrice/100}}</p>
+          </li>
+          <li class="rela">
+            <p class="abs li-left">运费</p>
+            <p class="li-right">包邮</p>
+          </li>
+          <!-- <li class="rela"></li>
+          <li class="rela"></li>-->
+        </ul>
+        <p class="total-price">
+          合计
+          <span>￥{{totalPrice/100}}</span>
+        </p>
       </div>
       <div class="C-recommend-wrap">
         <div class="C-recommend-title">推荐商品</div>
@@ -108,13 +192,13 @@
                   class="sub-price"
                   style="color:rgb(255,72,145)"
                   v-if="item.pricePro.vip"
-                >￥{{item.pricePro.vip.price}}</span>
+                >￥{{item.pricePro.vip.price/100}}</span>
               </div>
               <div class="product-prices">
                 <span
                   class="main-price"
                   style="color:rgb(150,150,150)"
-                >￥{{item.pricePro.noVip.price}}</span>
+                >￥{{item.pricePro.noVip.price/100}}</span>
               </div>
             </div>
             <div class="product-ctrl">
@@ -124,17 +208,37 @@
           </div>
         </div>
       </div>
+      <div class="C-footer-wrap" v-if="!titleShow">
+        <div class="C-footer-content flex" style="bottom:49px;">
+          <input type="checkbox" class="C-checkbox" v-model="checkAll">
+          <div class="C-footer-label">全选</div>
+          <div class="C-footer-price">
+            <p class="C-footer-total">
+              <span style="color:rgb(38,38,38)">合计：</span>
+              <span style="color:rgb(255,72,145)">￥{{totalPrice/100}}</span>
+            </p>
+            <p class="C-footer-info" style="color:rgb(150,150,150);">包邮</p>
+          </div>
+          <div class="C-footer-btn flex" @click="jiesuan">去结算</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
 import recommend from "../assets/js-Data/recommend";
+import { Button } from "vant";
+import Vue from "vue";
+import { getCurves } from 'crypto';
+Vue.use(Button);
 export default {
   data() {
     return {
       addressShow: false,
-      recommend: recommend.data.products
+      titleShow:true,
+      recommend: recommend.data.products,
+      checkAll:true
     };
   },
   methods: {
@@ -143,9 +247,63 @@ export default {
     },
     closeAddress() {
       this.addressShow = false;
+    },
+    removeItem(sku) {
+      this.$store.commit("removeQty", sku);
+      if(this.$store.getters.cartLength == 0){
+        this.titleShow = true;
+      }
+    },
+    changeQty(sku) {
+      //id 和  修改数量
+
+      this, $store.commit("changeQty", { sku, showOrder });
+    },
+    sub(sku) {
+      let cartList = this.$store.state.cart.cartList;
+      // console.log(cartList);
+      cartList.forEach(item => {
+        if (item.normalProducts.sku == sku) {
+          item.normalProducts.showOrder--;
+          if (item.normalProducts.showOrder <= 1) {
+            item.normalProducts.showOrder = 1;
+          }
+        }
+      });
+    },
+    add(sku) {
+      let cartList = this.$store.state.cart.cartList;
+      cartList.forEach(item => {
+        if (item.normalProducts.sku == sku) {
+          item.normalProducts.showOrder++;
+          if (item.normalProducts.showOrder > item.normalProducts.stock) {
+            item.normalProducts.showOrder = item.normalProducts.stock;
+            alert("超出库存数");
+          }
+        }
+      });
+    },
+    jiesuan(){
+      alert('购买成功');
     }
   },
-  created() {}
+  computed: {
+    cartLength() {
+      return this.$store.getters.cartLength;
+    },
+    cartList() {
+      // console.log(this.$store.state.cart.cartList);
+      return this.$store.state.cart.cartList;
+    },
+    totalPrice() {
+      return this.$store.getters.totalPrice;
+    }
+  },
+  created() {
+    if(this.$store.getters.cartLength){
+      this.titleShow = false;
+    }
+  }
 };
 </script>
 <style scoped lang='scss'>
@@ -155,14 +313,24 @@ export default {
 }
 body {
 }
-div {
+div,
+p,
+ul,
+li {
   box-sizing: border-box;
 }
+
 i {
   font-style: normal;
 }
 .flex {
   display: flex;
+}
+.rela {
+  position: relative;
+}
+.abs {
+  position: absolute;
 }
 #cart_box {
   background: #f5f5f5;
@@ -351,9 +519,9 @@ i {
   }
   .C-empty {
     background: url(../assets/img3/icon_buycar_empty_icon.png) no-repeat center
-      #fff;
+      #f5f5f5;
     background-size: 5.625rem 5.625rem;
-    padding-top: 10.125rem;
+    // padding-top: 10.125rem;
     background-position-y: 11.375rem;
     .cart-top {
       position: fixed;
@@ -394,14 +562,14 @@ i {
           height: 0.4375rem;
         }
       }
-      .C-empty-text {
+    
+    }  .C-empty-text {
         padding: 8rem 0 4.375rem;
         text-align: center;
         font-size: 0.9375rem;
         color: #7f7f7f;
         line-height: 1.25rem;
       }
-    }
     .C-block-wrap {
       background: #fff;
       margin-top: 0.625rem;
@@ -415,40 +583,12 @@ i {
           box-align: center;
           display: flex;
           .C-checkbox {
-            position: relative;
-            width: 1.875rem;
-            height: 2.75rem;
-            .C-checkbox-c {
-              position: absolute;
-              top: 0.6875rem;
-              left: 0;
-              width: 1.375rem;
-              height: 1.375rem;
-              box-sizing: border-box;
-              border-radius: 100%;
-            }
+            
+            width: 1.2rem;
+            height: 1.2rem;
+         
           }
-          .C-checkbox.selected {
-            .C-checkbox-c {
-              border: 0.0625rem solid #ff4891;
-              background-color: #ff4891;
-            }
-            .C-checkbox-c::after {
-              content: " ";
-              position: absolute;
-              top: 0.1875rem;
-              left: 0.375rem;
-              width: 0.3125rem;
-              height: 0.5625rem;
-              border-style: solid;
-              border-color: #fff;
-              border-width: 0 0.125rem 0.125rem 0;
-              transform-origin: center center;
-              -webkit-transform-origin: center center;
-              transform: rotate(45deg);
-              -webkit-transform: rotate(45deg);
-            }
-          }
+        
           .C-group-title {
             flex: 1;
             font-size: 0.875rem;
@@ -470,8 +610,9 @@ i {
           margin: 0;
         }
         .C-group-item-list {
-          .P-item-wrap-cart {
-            border-bottom: 0;
+          .P-item-wrap {
+            box-sizing: content-box;
+            position: relative;
             .P-item-content {
               position: relative;
               box-align: center;
@@ -480,95 +621,230 @@ i {
               z-index: 1;
               background: #fff;
               .C-checkbox {
-                position: relative;
-                width: 2.75rem;
-                height: 2.75rem;
+               
+                width: 1.2rem;
+                height: 1.2rem;
                 margin: 0 0.1875rem;
-                .C-checkbox-c {
-                  position: absolute;
-                  top: 0.6875rem;
-                  left: 0.6875rem;
-                  width: 1.375rem;
-                  height: 1.375rem;
-                  box-sizing: border-box;
-                  border-radius: 100%;
-                }
+                
               }
-              .C-checkbox.selected {
-                .C-checkbox-c {
-                  border: 0.0625rem solid #ff4891;
-                  background-color: #ff4891;
-                }
-                .C-checkbox-c::after {
-                  content: " ";
-                  position: absolute;
-                  top: 0.1875rem;
-                  left: 0.375rem;
-                  width: 0.3125rem;
-                  height: 0.5625rem;
-                  border-style: solid;
-                  border-color: #fff;
-                  border-width: 0 0.125rem 0.125rem 0;
-                  transform-origin: center center;
-                  -webkit-transform-origin: center center;
-                  transform: rotate(45deg);
-                  -webkit-transform: rotate(45deg);
-                }
-              }
-              .P-item-image{
-                width:4.375rem;
+              
+              .P-item-image {
+                width: 4.375rem;
                 height: 4.375rem;
                 position: relative;
-                .P-item-img{
-                  width:100%;
+                .P-item-img {
+                  width: 100%;
                   height: 100%;
                 }
               }
-              .P-item-info{
+              .P-item-info {
                 position: relative;
                 box-flex: 1;
                 flex: 1;
                 padding-left: 0.8125rem;
                 overflow: hidden;
                 align-self: flex-start;
-                .P-item-info-line{
+                .P-item-info-line {
                   padding-bottom: 0.25rem;
                 }
-                .P-item-name{
+                .P-item-name {
                   margin-right: 1.875rem;
                   font-size: 0.875rem;
                   color: #474245;
                   white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    padding-bottom: 0;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  padding-bottom: 0;
                 }
-                .P-item-tags{
+                .P-item-tags {
                   min-height: 1.25rem;
                   padding-bottom: 0.8125rem;
-                  .P-item-tag.place-tag{
+                  .P-item-tag.place-tag {
                     border-color: #d165e1;
                     color: #d165e1;
                     background: #fff;
-                        display: inline-block;
-    padding: 0 0.0625rem;
-    margin-right: 0.375rem;
-    border-radius: 0.125rem;
-    border-width: 0.0625rem;
-    border-style: solid;
-    font-size: 0.625rem;
-    line-height: 0.8125rem;
+                    display: inline-block;
+                    padding: 0 0.0625rem;
+                    margin-right: 0.375rem;
+                    border-radius: 0.125rem;
+                    border-width: 0.0625rem;
+                    border-style: solid;
+                    font-size: 0.625rem;
+                    line-height: 0.8125rem;
                   }
-                  .P-item-tag:last-child(1){
+                  .P-item-tag:last-child(1) {
                     margin-right: 0;
+                  }
+                }
+                .P-item-price {
+                  box-align: end;
+                  align-items: center;
+                  font-size: 1rem;
+                  line-height: 1.25rem;
+                  .P-item-price-unit {
+                    font-size: 0.9375rem;
+                    line-height: 0.875rem;
+                  }
+                  .P-item-price-price {
+                    padding-right: 0.1875rem;
+                    font-size: 1rem;
+                    line-height: 1.0625rem;
+                    font-weight: 500;
+                  }
+                  .P-item-price-origin {
+                    font-size: 0.75rem;
+                    line-height: 0.875rem;
+                    text-decoration: line-through;
+                  }
+                }
+                .P-item-controller {
+                  position: absolute;
+                  right: 0.625rem;
+                  bottom: 0;
+                  box-align: center;
+                  align-items: center;
+                  background: #fff;
+                  .P-item-controller-btn {
+                    display: block;
+                    width: 1.25rem;
+                    height: 1.25rem;
+                    border: 0.0625rem solid #e6e6e6;
+                    border-radius: 100%;
+                    color: #4d4d4d;
+                    font-size: 1rem;
+                    line-height: 1.025rem;
+                    text-align: center;
+                  }
+                  .P-item-controller-num {
+                    flex: 1;
+                    width: 1.5625rem;
+                    text-align: center;
+                    color: #4b4b4b;
+                    font-size: 0.875rem;
+                    line-height: 1rem;
+                    word-break: break-all;
                   }
                 }
               }
             }
           }
+          .P-item-wrap:last-child(1) {
+            border-bottom: 0;
+          }
+        }
+      }
+      .P-item-delete {
+        position: absolute;
+        right: 10px;
+        top: 15%;
+        height: 30%;
+        width: 3.5rem;
+        box-pack: center;
+        justify-content: center;
+        box-align: center;
+        align-items: center;
+        background: #ff4891;
+        color: #fff;
+        font-size: 1rem;
+        z-index: 1;
+      }
+    }
+    .open-vip-wrap {
+      width: 100%;
+      margin-top: 0.625rem;
+      padding: 0 0.625rem;
+      .open-vip-box {
+        width: 100%;
+        padding: 0 0.5rem;
+        background-color: #fff;
+        border-radius: 0.625rem;
+        display: flex;
+        .open-vip-box-top {
+          height: 2.5rem;
+          line-height: 2.5rem;
+          font-size: 0.75rem;
+          color: #474245;
+          .open-vip-icon {
+            width: 3.125rem;
+            height: 0.875rem;
+            vertical-align: middle;
+          }
+        }
+        .open-vip-box-bot-r {
+          line-height: 2.8125rem;
+          box-flex: 1;
+          flex: 1;
+          text-align: right;
+          padding-right: 1.875rem;
+          position: relative;
+          .open-text {
+            color: #474245;
+          }
+          .select-box {
+            position: absolute;
+            width: 1.875rem;
+            height: 100%;
+            top: 0;
+            right: 0;
+            img {
+              width: 1.125rem;
+              height: 1.125rem;
+              position: absolute;
+              top: 50%;
+              right: 0;
+              margin-top: -0.5625rem;
+            }
+          }
         }
       }
     }
+    .price-list-panel {
+      font-size: 0.875rem;
+      margin-top: 0.625rem;
+      width: 100%;
+      padding: 0 0.625rem;
+      .price-list-ul {
+        background-color: #fff;
+        border-top-left-radius: 0.625rem;
+        border-top-right-radius: 0.625rem;
+        padding: 0 0.5rem;
+        li {
+          min-height: 2.25rem;
+          line-height: 2.25rem;
+          font-size: 0.875rem;
+          border-bottom: 0.0625rem solid #f5f5f5;
+          .li-left {
+            left: 0.625rem;
+          }
+          .li-right {
+            padding-right: 0.9375rem;
+            text-align: right;
+          }
+        }
+        .item-content-totalPrice {
+          height: 3.4375rem;
+          line-height: 3.4375rem;
+          .li-right {
+            padding-top: 0.9375rem;
+          }
+        }
+      }
+      .total-price {
+        width: 100%;
+        font-size: 1.125rem;
+        text-align: right;
+        color: #262626;
+        line-height: 3.4375rem;
+        padding-right: 0.9375rem;
+        background-color: #fff;
+        border-bottom-left-radius: 0.625rem;
+        border-bottom-right-radius: 0.625rem;
+        span {
+          color: #ff4891;
+        }
+      }
+    }
+
     .C-recommend-wrap {
       margin: 1.625rem 0;
       .C-recommend-title {
@@ -676,6 +952,69 @@ i {
             height: 1.875rem;
             z-index: 2;
           }
+        }
+      }
+    }
+    .C-footer-wrap {
+      position: relative;
+      height: 3.0625rem;
+      width: 100%;
+      .C-footer-content {
+        box-align: center;
+        align-items: center;
+        position: fixed;
+        left: 0;
+        width: 100%;
+        height: 3rem;
+        border-top: 0.0625rem solid #e6e6e6;
+
+        box-sizing: border-box;
+        padding-left: 0.9375rem;
+        background: #fff;
+        z-index: 99;
+        .C-checkbox {
+          width: 1.2rem;
+          height: 1.2rem;        
+        }
+       
+        .C-footer-label {
+          margin-right: 0.625rem;
+          font-size: 0.875rem;
+          color: #262626;
+        }
+        .C-footer-price {
+          flex: 1;
+          .C-footer-total {
+            font-size: 0.875rem;
+            line-height: 1rem;
+            color: #262626;
+          }
+          .C-footer-info {
+            font-size: 0.75rem;
+            line-height: 0.75rem;
+            transform-origin: top left;
+          }
+        }
+        .C-footer-btn {
+          width: 8.125rem;
+          height: 3rem;
+          box-align: center;
+          align-items: center;
+          box-pack: center;
+          justify-content: center;
+          color: #fff;
+          font-size: 1.125rem;
+          background-color: #ff4891;
+        }
+        .C-footer-btn::after {
+          content: " ";
+          display: inline-block;
+          margin-left: 0.1875rem;
+          border-color: transparent transparent transparent #fff;
+          border-width: 0.25rem 0 0.25rem 0.4375rem;
+          border-style: solid;
+          width: 0;
+          height: 0;
         }
       }
     }

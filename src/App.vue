@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 15:57:35
- * @LastEditTime: 2019-10-10 15:57:35
- * @LastEditors: your name
+ * @LastEditTime: 2019-10-15 15:46:28
+ * @LastEditors: Please set LastEditors
  -->
 <template>
   <div>
@@ -71,12 +71,14 @@
           </a>
         <!-- </router-link> -->
         <!-- <router-link to="/cart"> -->
+        <el-badge :value="cartLenght" class="item">
           <a href="javascript:;" class="weui-tabbar__item tab-shopcar">
             <router-link to="/cart">
             <i class="el-icon-shopping-cart-2 weui-tabbar__icon"></i>
             <p class="weui-tabbar__label">购物车</p>
             </router-link>
           </a>
+        </el-badge>
         <!-- </router-link> -->
         <!-- <router-link to="/mine"> -->
           <a href="javascript:;" class="weui-tabbar__item tab-mine">
@@ -97,6 +99,11 @@ export default {
   data(){
     return {
       path:''
+    }
+  },
+  computed:{
+    cartLenght(){
+      return this.$store.getters.cartLength;
     }
   },
   //       // 判断路由
