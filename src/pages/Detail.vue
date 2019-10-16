@@ -214,7 +214,7 @@ export default {
         [SwipeItem.name] : SwipeItem
     },
     async created(){
-        let detailData = await axios.get(`http://127.0.0.1:3000/goods?sku=${this.$route.query.sku}`);
+        let detailData = await axios.get(`http://49.232.154.155:2999/goods/detail?sku=${this.$route.query.sku}`);
         console.log(1)
         this.detailDate = detailData.data[0]
         // .then(response=> {
