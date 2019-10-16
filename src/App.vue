@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="header" v-show="!(path ==='/login') ">
+    <div class="header" v-show="!(path ==='/login' || path ==='/mine' || path ==='/privacy' || path ==='/agreement' || path === '/aboutus' || path ==='/help' || path ==='/address' || path ==='/mineaddress' || path ==='/reg') ">
       <div id="home-head" class="mall-home-head">
         <div class="adv-bar-blank-filler" style="height: 2.375rem;"></div>
         <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 2;">
@@ -36,7 +36,7 @@
     </div>
     <router-view />
     <div style="width:100%;height:45px"></div>
-    <div class="footer" v-show="!(path ==='/login') ">
+    <div class="footer" v-show="!(path ==='/login' || path ==='/privacy' || path ==='/agreement' || path ==='/aboutus' || path ==='/help' || path ==='/address' || path ==='/mineaddress' || path ==='/reg') ">
       <div class="weui-tabbar mall-nav">
         <!-- <router-link to="/home"> -->
           <a href="javascript:;" class="weui-tabbar__item">
