@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 15:57:35
- * @LastEditTime: 2019-10-16 16:59:29
+ * @LastEditTime: 2019-10-16 17:13:19
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div>
-    <div class="header" v-show="!(path ==='/login' || path ==='/detail' || path === '/search') ">
+    <div class="header" v-show="!(path ==='/login' || path ==='/detail' || path === '/search' || path === '/cart') ">
       <div id="home-head" class="mall-home-head">
         <div class="adv-bar-blank-filler" style="height: 2.375rem;"></div>
         <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 999;">

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edita
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-15 17:47:00
+ * @LastEditTime: 2019-10-16 17:52:01
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -45,8 +45,6 @@
           <span class="C-locat-city" @click="chooseAddress">广州市天河区文化局</span>
           <div class="location-arrow"></div>
         </div>
-
-        
       </div>
       <p class="C-empty-text" v-if="titleShow">你还没有添加任何商品</p>
       <div class="C-block-wrap C-group-wrap" v-else>
@@ -54,8 +52,8 @@
           <div class="C-group-header">
             <!-- <div class="C-checkbox selected">
               <i class="C-checkbox-c"></i>
-            </div> -->
-            <input type="checkbox" class="C-checkbox" v-model="checkAll">
+            </div>-->
+            <input type="checkbox" class="C-checkbox" v-model="checkAll" />
             <p class="C-group-title">2小时达</p>
             <span class="C-group-header-right">包邮</span>
           </div>
@@ -70,7 +68,7 @@
                 style="transition: -webkit-transform 200ms ease 0s;
                  transform: translate3d(0px, 0px, 0px);"
               >
-                <input type="checkbox" class="C-checkbox" v-model="checkAll">
+                <input type="checkbox" class="C-checkbox" v-model="checkAll" />
                 <div class="P-item-image">
                   <img
                     class="P-item-img"
@@ -105,15 +103,9 @@
                     >￥{{item.normalProducts.pricePro.vip.price/100}}</span>
                   </div>
                   <div class="P-item-controller flex">
-                    <span
-                      class="P-item-controller-btn sub"
-                      @click="sub(item.normalProducts.sku)"
-                    >-</span>
+                    <span class="P-item-controller-btn sub" @click="sub(item.normalProducts.sku)">-</span>
                     <span class="P-item-controller-num">{{item.normalProducts.showOrder}}</span>
-                    <span
-                      class="P-item-controller-btn add"
-                      @click="add(item.normalProducts.sku)"
-                    >+</span>
+                    <span class="P-item-controller-btn add" @click="add(item.normalProducts.sku)">+</span>
                   </div>
                 </div>
               </div>
@@ -203,6 +195,7 @@
             </div>
             <div class="product-ctrl">
               <img class="product-ctrl-bg" src="../assets/img3/blur-bg.png" alt />
+
               <img class="product-addcart-img" src="../assets/img3/new-cart.png" alt />
             </div>
           </div>
@@ -210,7 +203,7 @@
       </div>
       <div class="C-footer-wrap" v-if="!titleShow">
         <div class="C-footer-content flex" style="bottom:49px;">
-          <input type="checkbox" class="C-checkbox" v-model="checkAll">
+          <input type="checkbox" class="C-checkbox" v-model="checkAll" />
           <div class="C-footer-label">全选</div>
           <div class="C-footer-price">
             <p class="C-footer-total">
@@ -230,15 +223,15 @@ import axios from "axios";
 import recommend from "../assets/js-Data/recommend";
 import { Button } from "vant";
 import Vue from "vue";
-import { getCurves } from 'crypto';
+import { getCurves } from "crypto";
 Vue.use(Button);
 export default {
   data() {
     return {
       addressShow: false,
-      titleShow:true,
+      titleShow: true,
       recommend: recommend.data.products,
-      checkAll:true
+      checkAll: true
     };
   },
   methods: {
@@ -250,7 +243,7 @@ export default {
     },
     removeItem(sku) {
       this.$store.commit("removeQty", sku);
-      if(this.$store.getters.cartLength == 0){
+      if (this.$store.getters.cartLength == 0) {
         this.titleShow = true;
       }
     },
@@ -283,8 +276,9 @@ export default {
         }
       });
     },
-    jiesuan(){
-      alert('购买成功');
+
+    jiesuan() {
+      alert("购买成功");
     }
   },
   computed: {
@@ -300,7 +294,7 @@ export default {
     }
   },
   created() {
-    if(this.$store.getters.cartLength){
+    if (this.$store.getters.cartLength) {
       this.titleShow = false;
     }
   }
@@ -562,14 +556,14 @@ i {
           height: 0.4375rem;
         }
       }
-    
-    }  .C-empty-text {
-        padding: 8rem 0 4.375rem;
-        text-align: center;
-        font-size: 0.9375rem;
-        color: #7f7f7f;
-        line-height: 1.25rem;
-      }
+    }
+    .C-empty-text {
+      padding: 8rem 0 4.375rem;
+      text-align: center;
+      font-size: 0.9375rem;
+      color: #7f7f7f;
+      line-height: 1.25rem;
+    }
     .C-block-wrap {
       background: #fff;
       margin-top: 0.625rem;
@@ -583,12 +577,10 @@ i {
           box-align: center;
           display: flex;
           .C-checkbox {
-            
             width: 1.2rem;
             height: 1.2rem;
-         
           }
-        
+
           .C-group-title {
             flex: 1;
             font-size: 0.875rem;
@@ -621,13 +613,11 @@ i {
               z-index: 1;
               background: #fff;
               .C-checkbox {
-               
                 width: 1.2rem;
                 height: 1.2rem;
                 margin: 0 0.1875rem;
-                
               }
-              
+
               .P-item-image {
                 width: 4.375rem;
                 height: 4.375rem;
@@ -952,6 +942,23 @@ i {
             height: 1.875rem;
             z-index: 2;
           }
+          .product-cart-btns {
+            display: flex;
+            align-items: center;
+            z-index: 2;
+            .product-cart-btn {
+              box-sizing: border-box;
+              width: 1.3125rem;
+              height: 1.3125rem;
+              z-index: 1;
+            }
+            .product-cart-num {
+              font-size: 0.875rem;
+              color: #4d4d4d;
+              line-height: 1.25rem;
+              padding: 0 0.5rem;
+            }
+          }
         }
       }
     }
@@ -974,9 +981,9 @@ i {
         z-index: 99;
         .C-checkbox {
           width: 1.2rem;
-          height: 1.2rem;        
+          height: 1.2rem;
         }
-       
+
         .C-footer-label {
           margin-right: 0.625rem;
           font-size: 0.875rem;
