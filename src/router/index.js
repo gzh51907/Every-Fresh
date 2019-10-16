@@ -12,6 +12,8 @@ import Mine from '../pages/Mine.vue';
 import Login from '../pages/Login.vue';
 import Privacy from '../pages/Privacy.vue';
 import Agreement from '../pages/Agreement.vue';
+import Detail from '../pages/Detail.vue';
+import Search from '../pages/Search.vue'
 
 let router = new VueRouter({
     routes:[
@@ -58,6 +60,16 @@ let router = new VueRouter({
             name: 'agreement',
             path: '/agreement',
             component: Agreement,
+        },
+        {
+            name: 'detail',
+            path: '/detail',
+            component: Detail,
+        },
+        {
+            name: 'search',
+            path: '/search',
+            component: Search,
         },
     ]
 })

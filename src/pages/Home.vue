@@ -2,7 +2,12 @@
   <div class="category product-category-swiper">
     <div class="category-nav">
       <section class="category-nav-wrap">
-        <van-tabs style="width: auto;" title-active-color="#ff4891" color="#ff4891" >
+        <van-tabs
+          style="width: auto;"
+          title-active-color="#ff4891"
+          color="#ff4891"
+          @change="changeDate"
+        >
           <!-- <van-tab 
                         v-for="index in listdate" 
                         :title="index.name" 
@@ -49,7 +54,6 @@
                                   class="image-view"
                                   style
                                 />
-                                <!---->
                               </div>
                               <p>本周新品</p>
                             </div>
@@ -61,7 +65,6 @@
                                   class="image-view"
                                   style
                                 />
-                                <!---->
                               </div>
                               <p>邀请有礼</p>
                             </div>
@@ -73,7 +76,6 @@
                                   class="image-view"
                                   style
                                 />
-                                <!---->
                               </div>
                               <p>每日签到</p>
                             </div>
@@ -85,7 +87,6 @@
                                   class="image-view"
                                   style
                                 />
-                                <!---->
                               </div>
                               <p>凑单专区</p>
                             </div>
@@ -97,7 +98,6 @@
                                   class="image-view"
                                   style
                                 />
-                                <!---->
                               </div>
                               <p>开通会员</p>
                             </div>
@@ -117,7 +117,6 @@
                             />
                           </div>
                         </div>
-                        <!---->
                       </section>
                       <div class="all-products-wrap">
                         <div class="product-container">
@@ -135,26 +134,21 @@
                                 />
                               </div>
                             </div>
-                            <div style="padding: 0px 1%; width: 100%; box-sizing: border-box;">
-                              <!---->
-                            </div>
+                            <div style="padding: 0px 1%; width: 100%; box-sizing: border-box;"></div>
                           </div>
                           <div
                             class="product-list-item-wrap"
                             v-for="item in newdate"
                             :key="item.subtitle"
                             style="background-color: rgb(255, 255, 255);"
+                            @click="goto(item.sku)"
                           >
-                            <!---->
                             <div style="padding: 0px 1%; width: 100%; box-sizing: border-box;">
                               <section class="product-item-container">
                                 <div class="product-item">
                                   <div class="item-image">
                                     <div class="promotion">
-                                      <div class="product-item-promotion">
-                                        <!---->
-                                        <!---->
-                                      </div>
+                                      <div class="product-item-promotion"></div>
                                     </div>
                                     <div class="product-item-image">
                                       <img :src="item.image" class="vux-x-img b-loaded" id />
@@ -174,8 +168,9 @@
                                             class="tag-text"
                                             style="background-color: rgb(255, 255, 255); border-color: rgb(245, 159, 193); color: rgb(245, 159, 193);"
                                           >
-                                            <!---->
-                                            <span class="product-item-tag-txt">新人专享</span>
+                                            <span
+                                              class="product-item-tag-txt"
+                                            >{{item.product_tags[0].name}}</span>
                                           </p>
                                         </span>
                                       </div>
@@ -189,39 +184,40 @@
                                           >
                                             <span class="name"></span>
                                             <span class="sign">￥</span>
-                                            <span class="price">2.9</span>
+                                            <span
+                                              class="price"
+                                            >{{(item.vip_price_pro.price_up.price/100)}}</span>
                                           </div>
                                         </div>
                                         <div class="down-price" style="color: rgb(255, 72, 145);">
-                                          <!---->
                                           <span class="sign">￥</span>
-                                          <span class="price">0.9</span>
+                                          <span
+                                            class="price"
+                                          >{{(item.vip_price_pro.price_down.price/100)}}</span>
                                           <span class="name"></span>
-                                          <!---->
+
                                           <span
                                             class="has-line-through"
                                             style="color: rgb(150, 150, 150); text-decoration: line-through;"
                                           >
                                             ￥
-                                            <span class="price has-line">2.9</span>
+                                            <span
+                                              class="price has-line"
+                                            >{{(item.vip_price_pro.price_up.price/100)}}</span>
                                           </span>
-                                          <!---->
                                         </div>
                                       </div>
                                     </div>
                                     <div class="item-cart">
                                       <div class="product-item-cart">
-                                        <!---->
                                         <div class="cart">
                                           <img
                                             src="../assets/public img/img_20170425134548759.png"
                                             class="image"
                                           />
-                                          <!---->
                                         </div>
                                       </div>
                                     </div>
-                                    <!---->
                                   </div>
                                 </div>
                               </section>
@@ -235,15 +231,19 @@
               </div>
             </div>
           </van-tab>
-          <van-tab v-for="index in listdate" :key="index.internal_id" :title="index.name" >
+          <van-tab v-for="(index,idx) in listdate" :key="index.internal_id" :title="index.name" v-if="idx != 0">
             <div
+              
               class="product-list-item-wrap"
-              v-for="item in yxccdate"
-              :key="item.subtitle"
+              v-for="item in typedate"
               style="background-color: rgb(255, 255, 255);"
             >
               <!---->
-              <div style="padding: 0px 1%; width: 100%; box-sizing: border-box;">
+              <div
+                style="padding: 0px 1%; width: 100%; box-sizing: border-box;"
+                v-if="item.image"
+                @click="goto(item.sku)"
+              >
                 <section class="product-item-container">
                   <div class="product-item">
                     <div class="item-image">
@@ -270,9 +270,13 @@
                             <p
                               class="tag-text"
                               style="background-color: rgb(255, 255, 255); border-color: rgb(245, 159, 193); color: rgb(245, 159, 193);"
+                              v-if="item.product_tags"
                             >
                               <!---->
-                              <span class="product-item-tag-txt">新人专享</span>
+                              <span class="product-item-tag-txt">{{item.product_tags[0].name}}</span>
+                            </p>
+                            <p v-else>
+                              <span class="product-item-tag-txt"></span>
                             </p>
                           </span>
                         </div>
@@ -286,13 +290,15 @@
                             >
                               <span class="name"></span>
                               <span class="sign">￥</span>
-                              <span class="price">2.9</span>
+                              <span class="price">{{(item.vip_price_pro.price_up.price/100)}}</span>
                             </div>
                           </div>
                           <div class="down-price" style="color: rgb(255, 72, 145);">
                             <!---->
                             <span class="sign">￥</span>
-                            <span class="price">0.9</span>
+                            <span
+                              class="price"
+                            >{{(item.vip_price_pro.price_down.price/100).toFixed(1)}}</span>
                             <span class="name"></span>
                             <!---->
                             <span
@@ -300,7 +306,9 @@
                               style="color: rgb(150, 150, 150); text-decoration: line-through;"
                             >
                               ￥
-                              <span class="price has-line">2.9</span>
+                              <span
+                                class="price has-line"
+                              >{{(item.vip_price_pro.price_up.price/100).toFixed(1)}}</span>
                             </span>
                             <!---->
                           </div>
@@ -319,6 +327,29 @@
                     </div>
                   </div>
                 </section>
+              </div>
+              <div
+                class="product-list-divider-wrap"
+                style="background-color: rgb(255, 255, 255);"
+                v-else
+              >
+                <div class="list-divider-container product-list-divider">
+                  <div class="banner-img" v-for="index in item.banner">
+                    <img
+                      v-if="index.path"
+                      :src="index.path"
+                      class="image-view divider-banner"
+                      style
+                    />
+                    <div class="title-text" v-else>
+                      <p class="title-text-first" style="color: rgb(0, 0, 0);">{{item.second_title}}</p>
+                      <p class="title-text-second">{{item.tags}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div style="padding: 0px 1%; width: 100%; box-sizing: border-box;">
+                  <!---->
+                </div>
               </div>
             </div>
           </van-tab>
@@ -368,10 +399,33 @@ import { Tab, Tabs, Button } from "vant";
 import homeData from "../assets/homedatajs/homedata.js";
 import homeList from "../assets/homedatajs/homelist.js";
 import yxcc from "../assets/homedatajs/yxcc.js";
-import dzx from "../assets/homedatajs/dzx.js"
+import dzx from "../assets/homedatajs/dzx.js";
+import slcx from "../assets/homedatajs/slcx.js";
+import hytj from "../assets/homedatajs/hytj.js";
+import sg from "../assets/homedatajs/sg.js";
+import rd from "../assets/homedatajs/rd.js";
+import sc from "../assets/homedatajs/sc.js";
+import slsg from "../assets/homedatajs/slsg.js";
+import rp from "../assets/homedatajs/rp.js";
+import shuichan from "../assets/homedatajs/shuichan.js";
+import ls from "../assets/homedatajs/ls.js";
+import js from "../assets/homedatajs/js.js";
+import ly from "../assets/homedatajs/ly.js";
+import rb from "../assets/homedatajs/rb.js";
+import ss from "../assets/homedatajs/ss.js";
+import shushi from "../assets/homedatajs/shushi.js";
+import xxsc from "../assets/homedatajs/xxsc.js";
+import rqdl from "../assets/homedatajs/rqdl.js";
+import lwss from "../assets/homedatajs/lwss.js";
+import hxsc from "../assets/homedatajs/hxsc.js";
+import rpxg from "../assets/homedatajs/rpxg.js";
+import xxls from "../assets/homedatajs/xxls.js";
+import jggd from "../assets/homedatajs/jggd.js";
+import jsyl from "../assets/homedatajs/jsyl.js";
+import lytw from "../assets/homedatajs/lytw.js";
+import ssmd from "../assets/homedatajs/ssmd.js";
 
 export default {
-  mounted() {},
   components: {
     [Tabs.name]: Tabs,
     [Button.name]: Button,
@@ -383,30 +437,90 @@ export default {
       homeList,
       newdate: [],
       listdate: [],
+      typedate: [],
       yxccdate: [],
       dzxdate: [],
       val: 5
     };
   },
+  methods: {
+    goto(sku) {
+      this.$router.push({ name: "detail", query: { sku } });
+    },
+    changeDate(name, index) {
+      if (name == 1) {
+        this.typedate = yxcc.yxcc.products;
+      } else if (name == 2) {
+        this.typedate = slcx.date.products;
+      } else if (name == 3) {
+        this.typedate = dzx.date.products;
+      } else if (name == 4) {
+        this.typedate = hytj.date.products;
+      } else if (name == 5) {
+        this.typedate = slcx.date.products;
+      } else if (name == 6) {
+        this.typedate = sg.date.products;
+      } else if (name == 7) {
+        this.typedate = rd.date.products;
+      } else if (name == 8) {
+        this.typedate = sc.date.products;
+      } else if (name == 9) {
+        this.typedate = slsg.date.products;
+      } else if (name == 10) {
+        this.typedate = rp.date.products;
+      } else if (name == 11) {
+        this.typedate = shuichan.date.products;
+      } else if (name == 12) {
+        this.typedate = ls.date.products;
+      } else if (name == 13) {
+        this.typedate = js.date.products;
+      } else if (name == 14) {
+        this.typedate = ly.date.products;
+      } else if (name == 15) {
+        this.typedate = rb.date.products;
+      } else if (name == 16) {
+        this.typedate = ss.date.products;
+      } else if (name == 17) {
+        this.typedate = shushi.date.products;
+      } else if (name == 18) {
+        this.typedate = xxsc.date.products;
+      } else if (name == 19) {
+        this.typedate = rqdl.date.products;
+      } else if (name == 20) {
+        this.typedate = lwss.date.products;
+      } else if (name == 21) {
+        this.typedate = hxsc.date.products;
+      } else if (name == 22) {
+        this.typedate = rpxg.date.products;
+      } else if (name == 23) {
+        this.typedate = xxls.products;
+      } else if (name == 24) {
+        this.typedate = jggd.date.products;
+      } else if (name == 25) {
+        this.typedate = jsyl.date.products;
+      } else if (name == 26) {
+        this.typedate = lytw.date.products;
+      } else if (name == 27) {
+        this.typedate = ssmd.date.products;
+      }
+    }
+  },
   created() {
     //删除标题
+    // this.homeList.category_list.splice(0, 1);
+    // console.log(this.homeList.category_list)
     this.homeData.data.products.forEach((item, index) => {
       if (!item.image) {
         this.homeData.data.products.splice(index, 1);
       }
     });
     this.newdate = this.homeData.data.products;
-    this.listdate = this.homeList.datalist.category_list.splice(1);
 
-    this.yxccdate = yxcc.yxcc.products;
-    this.yxccdate.forEach((item, index) => {
-      if (!item.image) {
-        this.yxccdate.splice(index, 1);
-      }
-    });
+    this.listdate = this.homeList.category_list;
 
-    this.dzxdate = dzx.date.products;
-    console.log(this.dzxdate);
+    // console.log('list',this.listdate);
+    
+    
   }
 };
 </script>
@@ -617,6 +731,28 @@ em {
 .product-container .product-list-divider-wrap {
   overflow: hidden;
 }
+.title-text {
+  width: 100%;
+  text-align: left;
+  padding: 0.625rem 1.125rem;
+  margin-bottom: 0.5rem;
+  margin-bottom: 0;
+  .title-text-first {
+    font-size: 1.25rem;
+    height: 1.875rem;
+    line-height: 1.875rem;
+    color: #443e42;
+  }
+  .title-text-second {
+    color: #968d91;
+    font-size: 0.75rem;
+    height: 1.25rem;
+    line-height: 1.25rem;
+  }
+}
+.title-container {
+  padding: 0 1.125rem;
+}
 .list-divider-container {
   text-align: center;
   background: #fff;
@@ -741,15 +877,15 @@ em {
   width: 120px;
 }
 .product-item-tag .tag-text {
-    display: inline-block;
-    border-radius: 0.125rem;
-    font-size: 0.75rem;
-    height: 0.875rem;
-    line-height: 0.875rem;
-    border: 1PX solid #c6c6c6;
-    margin-right: 0.3125rem;
-    padding: 0 0.125rem;
-    color: #262626;
-    position: relative;
+  display: inline-block;
+  border-radius: 0.125rem;
+  font-size: 0.75rem;
+  height: 0.875rem;
+  line-height: 0.875rem;
+  border: 1px solid #c6c6c6;
+  margin-right: 0.3125rem;
+  padding: 0 0.125rem;
+  color: #262626;
+  position: relative;
 }
 </style>

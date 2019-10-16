@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="header" v-show="!(path ==='/login') ">
+    <div class="header" v-show="!(path ==='/login' || path ==='/detail' || path === '/search') ">
       <div id="home-head" class="mall-home-head">
         <div class="adv-bar-blank-filler" style="height: 2.375rem;"></div>
-        <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 2;">
+        <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 999;">
           <div
             class="vux-flexbox-item text-center location-wrap"
             style="margin-left: 8px; flex: 0 0 50%; text-align: left; padding-left: 1rem; float:left;margin-top:10px;"
@@ -21,6 +21,7 @@
           <div
             class="vux-flexbox-item text-right"
             style="margin-left: 8px; float:right;margin-top:8px"
+            @click="goSearch(path)"
           >
             <div>
               <div class="search-nav">
@@ -31,12 +32,13 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
     <router-view />
-    <div style="width:100%;height:45px"></div>
-    <div class="footer" v-show="!(path ==='/login') ">
+    <div style="width:100%;height:45px" v-show="!(path ==='/detail' || path === '/search') "></div>
+    <div class="footer" v-show="!(path ==='/login' || path ==='/detail' || path === '/search') ">
       <div class="weui-tabbar mall-nav">
         <!-- <router-link to="/home"> -->
           <a href="javascript:;" class="weui-tabbar__item">
@@ -101,6 +103,11 @@ export default {
             $route(to,from){
                 this.path = to.path
             }
+        },
+        methods:{
+          goSearch(from){
+            this.$router.push({name:'search',query:{from}})
+          }
         }
 }
 </script>
@@ -256,7 +263,7 @@ a{
 .weui-tabbar {
   display: flex;
   position: absolute;
-  z-index: 500;
+  z-index: 999;
   bottom: 0;
   width: 100%;
   background-color: #f7f7fa;
