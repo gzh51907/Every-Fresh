@@ -29,7 +29,8 @@
 
 <body>
   <noscript>
-    <strong>We're sorry but myapp doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    <strong>We're sorry but myapp doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
   </noscript>
   <div id="app"></div>
 </body>
@@ -48,10 +49,10 @@
     $('#userinput').bind('input propertychange', function () {
       //当输入框有内容时显示删除键
       if ($(" #userinput ").val()) {
-        $(" #dl-del ").css('display','block');
+        $(" #dl-del ").css('display', 'block');
       } else if (!$(" #userinput ").val()) {
         //当输入框没有有内容时隐藏删除键
-        $(" #dl-del ").css('display','none');
+        $(" #dl-del ").css('display', 'none');
       }
     });
 
@@ -61,3 +62,5 @@
 </script>
 
 </html>
+
+

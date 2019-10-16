@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-10 17:05:33
+ * @LastEditTime: 2019-10-16 17:00:33
+ * @LastEditors: Please set LastEditors
+ */
 import Vue from 'vue';
 
 import VueRouter from 'vue-router';
@@ -20,6 +27,9 @@ import Help from '../pages/Help.vue';
 import Feedback from '../pages/Feedback.vue';
 import Mineaddress from '../pages/Mineaddress.vue';
 import Reg from '../pages/R.vue';
+import Detail from '../pages/Detail.vue';
+import Search from '../pages/Search.vue'
+import Article from '../pages/Article.vue';
 
 let router = new VueRouter({
     routes:[
@@ -107,6 +117,21 @@ let router = new VueRouter({
             path: '/mineaddress',
             component: Mineaddress,
         },
+        {
+            name: 'detail',
+            path: '/detail',
+            component: Detail,
+        },
+        {
+            name: 'search',
+            path: '/search',
+            component: Search,
+        },
+        {
+            name:'article',
+            path:'/discover/article',
+            component:Article
+        }
     ]
 })
 export default router;

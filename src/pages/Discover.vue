@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-12 08:59:49
+ * @LastEditTime: 2019-10-14 16:26:16
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -10,7 +10,9 @@
     <div class="content">
       <div class="head">
         <div class="tab-image">
+          <lazy-component>
           <img src="../assets/img3/author-default.png" alt />
+          </lazy-component>
         </div>
         <div class="tab">
           <el-tabs
@@ -27,12 +29,12 @@
             >
               <div class="article-list" v-for="(item,index) in JXdata" :key="index">
                 <div class="list-wrap">
-                  <!-- <div class="list-header">
-                    <p class="list-title">{{item.module.name}}</p>
-                    <p class="list-desc">{{item.module.subtitle}}</p>
-                  </div>-->
-                  <div class="article-big">
-                    <div class="big-wrap" v-for="item in item.articles" :key="item.title">
+                  <div class="list-header" v-if='item.module'>
+                    <p class="list-title" v-if='item.module.name'>{{item.module.name}}</p>
+                    <p class="list-desc" v-if='item.module.subtitle'>{{item.module.subtitle}}</p>
+                  </div>
+                  <div class="article-big" v-for="item in item.articles" :key="item.title" :data-id='item.articleId' @click="toArticle(item.articleId)">
+                    <div class="big-wrap" v-if='item.format==1'>
                       <div class="article-card">
                         <div class="follow-user-item">
                           <img :src="item.authorPhoto" alt />
@@ -51,8 +53,8 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="big-wrap" v-for="item in item.articles" :key="item.articleId">
-                      <div class="asc-wrap">
+                    <div class="big-wrap" v-if='item.format==0'>
+                      <div class="asc-wrap" >
                         <div class="article-image">
                           <img :src="item.titlePic" alt />
                         </div>
@@ -74,7 +76,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>-->
+                    </div>
                   </div>
                 </div>
               </div>
@@ -90,7 +92,10 @@ import axios from "axios";
 import Vue from "vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-
+import {Lazyload} from 'vant';
+Vue.use(Lazyload,{
+  lazyComponent:true
+})
 Vue.use(ElementUI);
 export default {
   data() {
@@ -147,33 +152,25 @@ export default {
           "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=1";
         this.getdata();
       }
+    },
+    toArticle(id){
+        this.$router.push({
+          name:'article',
+           path:'/discover/article',
+           query:{id}
+        })
     }
   },
   mounted() {
     console.log(this.$refs.head.style.cssText);
   },
   async created() {
-    // this.api =
-    //   "https://as-vip.missfresh.cn/as/disc/index/multiLis?device_id=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&env=web&platform=web&uuid=c7da86b0-eb27-11e9-95ff-f76cbd7a063a&version=8.2.0&screen_height=375&screen_width=667&category=1";
-    // // axios.get(api).then(res => {
-    // //   this.JXdata = res.data;
-    // // });
     let {
       data: { data }
     } = await axios.get(this.api);
     this.JXdata = data;
     this.getdata();
-
-    // data.forEach((item, index) => {
-    //   item.articles.forEach((item, index) => {
-    //     if (index != 0) {
-    //       this.anthor.push(item);
-    //     } else {
-    //       this.firstList.push(item);
-    //     }
-    //   });
-    // });
-    // console.log(this.anthor);
+    // console.log(this.JXdata);
   }
 };
 </script>
@@ -242,6 +239,7 @@ body {
             
           
             .article-list {
+              padding-top:38px;
               .list-wrap {
                 margin: 0 15px;
                 .list-header {
