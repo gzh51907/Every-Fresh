@@ -25,6 +25,8 @@
 
           <el-button type="success" @click="submitForm" style="width:100%;margin-top:50px">登录</el-button>
 
+          <el-button type="primary" @click.native="goto('reg')" style="width:100%;margin-top:30px;margin-left:0px">注册</el-button>
+
         </el-form>
 
         <p style="text-align:center;" >登录注册表示您同意
@@ -40,37 +42,61 @@
 <script>
 export default{
   data() {
-     
+
     return {
       ruleForm: {
         username: "",
-        password: "",
+        password: ""
       },
       rules: {
         username: [
-          {trigger: "blur" },
-          {min:11,max:11,trigger:"blur",message:" "}
+          {min:11,max:11,trigger:"blur",message:" "},
+          { trigger: "blur" } 
         ],
         password:[
+          { min: 6,max: 12,message: "  ",trigger: "blur"},
           {trigger: "blur"},
-          { min: 6,max: 12,message: "  ",trigger: "blur"}
         ]
       }
     };
   },
     methods:{
         submitForm() {
-        this.$refs.regForm.validate((valid) => {
-            // valid:所有校验规则都通过后得到true
-          if (valid) {
-            alert('submit!');
-            let {username, password} = this.ruleForm;
-            this.$router.replace({name:'mine',params:{username}});
-            
-          } else {
-            console.log('error submit!!');
+          this.$refs.regForm.validate(async valid => {
+              // valid:所有校验规则都通过后得到true
+           if (valid) {
+            // alert('submit!');
+            // 发起ajax请求，等待服务器返回结果
+            // 根据服务器返回结果：注册成功->跳到“我的”
+
+            let { username, password } = this.ruleForm;
+            let { data } = await this.$axios.get(
+              "http://49.232.154.155:2999/user/login",
+              {
+                params: {
+                  username,
+                  password
+                }
+              }
+            );
+            // this.$router.replace('/mine')
+            if (data.code === 1) {
+              let { targetUrl } = this.$route.query;
+              console.log('targetUrl:',targetUrl);
+
+              localStorage.setItem('username',username)
+              // this.$router.push({path:'/mine'})
+               this.$router.replace({
+                 path: targetUrl || "/mine"
+               });
+             
+            }else if(data.code === 0){
+              alert("用户名或密码不正确");
+            }
+            } else {
+            window.console.log("error submit!!");
             return false;
-          }
+            }
         });
       },
       goto(name){
