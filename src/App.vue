@@ -71,16 +71,15 @@
             <span class="red-dot"></span>
             </router-link>
           </a>
-        <!-- </router-link> -->
-        <!-- <router-link to="/cart"> -->
-        <el-badge :value="cartLenght" class="item">
           <a href="javascript:;" class="weui-tabbar__item tab-shopcar">
-            <router-link to="/cart">
-            <i class="el-icon-shopping-cart-2 weui-tabbar__icon"></i>
-            <p class="weui-tabbar__label">购物车</p>
-            </router-link>
+            <el-badge :value="cartLenght" class="item">
+              <router-link to="/cart">
+              <i class="el-icon-shopping-cart-2 weui-tabbar__icon"></i>
+              <p class="weui-tabbar__label">购物车</p>
+              <span class="red-dot"></span>
+              </router-link>
+            </el-badge>
           </a>
-        </el-badge>
         <!-- </router-link> -->
         <!-- <router-link to="/mine"> -->
           <a href="javascript:;" class="weui-tabbar__item tab-mine">

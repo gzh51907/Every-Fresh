@@ -413,8 +413,6 @@ export default {
       newdate: [],
       listdate: [],
       typedate: [],
-      yxccdate: [],
-      dzxdate: [],
       val: 5
     };
   },
@@ -434,7 +432,13 @@ export default {
       
     }
   },
-  created() {
+  async created() {
+    // await axios.delete(`http://127.0.0.1:3000/goods/listdel`).then(response=> {
+    //         console.log(response)
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
     //删除标题
 
     this.homeData.data.products.forEach((item, index) => {
