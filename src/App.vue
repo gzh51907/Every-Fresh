@@ -15,8 +15,8 @@
             class="vux-flexbox-item text-center location-wrap"
             style="margin-left: 8px; flex: 0 0 50%; text-align: left; padding-left: 1rem; float:left;margin-top:10px;"
           >
-            <div class="chrome-icon">
-              <img src="./assets/public img/img_20161108170831264.png" alt class="icon-img" style />
+            <div class="chrome-icon" style="width:55px">
+              <img src="./assets/public img/img_20161108170831264.png" alt class="icon-img"  />
               <div class="chrome-tips">
                 <div class="chrome-tips-text" style="display: none;"></div>
               </div>
