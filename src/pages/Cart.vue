@@ -2,7 +2,7 @@
  * @Description: In User Settings Edita
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-16 17:52:01
+ * @LastEditTime: 2019-10-17 20:03:49
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -258,8 +258,8 @@ export default {
       cartList.forEach(item => {
         if (item.normalProducts.sku == sku) {
           item.normalProducts.showOrder--;
-          if (item.normalProducts.showOrder <= 1) {
-            item.normalProducts.showOrder = 1;
+          if (item.normalProducts.showOrder < 1) {
+            this.removeItem(sku)
           }
         }
       });
@@ -282,6 +282,7 @@ export default {
     }
   },
   computed: {
+   
     cartLength() {
       return this.$store.getters.cartLength;
     },

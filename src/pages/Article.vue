@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-14 09:22:33
- * @LastEditTime: 2019-10-14 16:30:06
+ * @LastEditTime: 2019-10-17 20:29:33
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -97,7 +97,7 @@
         <p class="list-desc list-desc-before">看得不过瘾？Pick更多好滋味</p>
       </div>
       <p class="line-1px"></p>
-      <div class="recommend-article asc-wrap" v-for="item in recommendList" :key="item.articleId">
+      <div class="recommend-article asc-wrap" @click="toArticle(item.articleId)" v-for="item in recommendList" :key="item.articleId">
         <div class="article-image">
           <div
             class="article-img image-loaded"
@@ -144,9 +144,59 @@ export default {
       recommendList: ""
     };
   },
+  methods:{
+    toArticle(id){
+      console.log(id)
+       this.$router.replace({
+          name:'article',
+           path:'/discover/article',
+           query:{id}
+        })
+    }
+  },
+  watch:{
+    '$route' (to,from){
+        let {id} = this.$route.query;
+      
+    // console.log(id);
+    let api = "https://as-vip.missfresh.cn/as/disc/article/detail?";
+   axios.get(api, {
+      params: {
+        device_id: "c7da86b0-eb27-11e9-95ff-f76cbd7a063a",
+        env: "web",
+        platform: "web",
+        uuid: "c7da86b0-eb27-11e9-95ff-f76cbd7a063a",
+        version: "8.2.0",
+        screen_height: 375,
+        screen_width: 667,
+        articleId: id
+      }
+    }).then(res=>{
+      this.articleData = res.data.data;
+    });
+    
+    // let api2 = "https://as-vip.missfresh.cn/as/disc/article/recommendList?";
+    // let recommend = await axios.get(api2, {
+    //   params: {
+    //     device_id: "c7da86b0-eb27-11e9-95ff-f76cbd7a063a",
+    //     env: "web",
+    //     platform: "web",
+    //     uuid: "c7da86b0-eb27-11e9-95ff-f76cbd7a063a",
+    //     version: "8.2.0",
+    //     screen_height: 556,
+    //     screen_width: 640,
+    //     pageNo: 1,
+    //     pageSize: 6
+    //   }
+    // });
+    // this.recommendList = recommend.data.data;
+    // console.log(recommend);
+    }
+  },
+
   async created() {
     let {id} = this.$route.query;
-    console.log(id);
+    // console.log(id);
     let api = "https://as-vip.missfresh.cn/as/disc/article/detail?";
     let { data } = await axios.get(api, {
       params: {
@@ -176,7 +226,7 @@ export default {
       }
     });
     this.recommendList = recommend.data.data;
-    console.log(recommend);
+    // console.log(recommend);
   }
 };
 </script>

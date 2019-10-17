@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 15:57:35
- * @LastEditTime: 2019-10-16 17:13:19
+ * @LastEditTime: 2019-10-17 20:57:46
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div>
-    <div class="header" v-show="!(path ==='/login' || path ==='/detail' || path === '/search' || path === '/cart') ">
+    <div class="header" v-show="!(path ==='/login' || path ==='/mine' || path ==='/privacy' || path ==='/agreement' || path === '/aboutus' || path ==='/help' || path ==='/address' || path ==='/mineaddress' || path ==='/reg' || path ==='/detail' || path === '/search' || path === '/cart') ">
       <div id="home-head" class="mall-home-head">
         <div class="adv-bar-blank-filler" style="height: 2.375rem;"></div>
         <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 999;">
@@ -45,7 +45,7 @@
     </div>
     <router-view />
     <div style="width:100%;height:45px" v-show="!(path ==='/detail' || path === '/search') "></div>
-    <div class="footer" v-show="!(path ==='/login' || path ==='/detail' || path === '/search') ">
+    <div class="footer" v-show="!(path ==='/login' || path ==='/privacy' || path ==='/agreement' || path ==='/aboutus' || path ==='/help' || path ==='/address' || path ==='/mineaddress' || path ==='/reg' || path ==='/detail' || path === '/search') ">
       <div class="weui-tabbar mall-nav">
         <!-- <router-link to="/home"> -->
           <a href="javascript:;" class="weui-tabbar__item">

@@ -402,35 +402,10 @@
 </template>
 
 <script>
+import axios from "axios";
 import { Tab, Tabs, Button } from "vant";
 import homeData from "../assets/homedatajs/homedata.js";
 import homeList from "../assets/homedatajs/homelist.js";
-import yxcc from "../assets/homedatajs/yxcc.js";
-import dzx from "../assets/homedatajs/dzx.js";
-import slcx from "../assets/homedatajs/slcx.js";
-import hytj from "../assets/homedatajs/hytj.js";
-import sg from "../assets/homedatajs/sg.js";
-import rd from "../assets/homedatajs/rd.js";
-import sc from "../assets/homedatajs/sc.js";
-import slsg from "../assets/homedatajs/slsg.js";
-import rp from "../assets/homedatajs/rp.js";
-import shuichan from "../assets/homedatajs/shuichan.js";
-import ls from "../assets/homedatajs/ls.js";
-import js from "../assets/homedatajs/js.js";
-import ly from "../assets/homedatajs/ly.js";
-import rb from "../assets/homedatajs/rb.js";
-import ss from "../assets/homedatajs/ss.js";
-import shushi from "../assets/homedatajs/shushi.js";
-import xxsc from "../assets/homedatajs/xxsc.js";
-import rqdl from "../assets/homedatajs/rqdl.js";
-import lwss from "../assets/homedatajs/lwss.js";
-import hxsc from "../assets/homedatajs/hxsc.js";
-import rpxg from "../assets/homedatajs/rpxg.js";
-import xxls from "../assets/homedatajs/xxls.js";
-import jggd from "../assets/homedatajs/jggd.js";
-import jsyl from "../assets/homedatajs/jsyl.js";
-import lytw from "../assets/homedatajs/lytw.js";
-import ssmd from "../assets/homedatajs/ssmd.js";
 
 export default {
   components: {
@@ -454,68 +429,21 @@ export default {
     goto(sku) {
       this.$router.push({ name: "detail", query: { sku } });
     },
-    changeDate(name, index) {
-      if (name == 1) {
-        this.typedate = yxcc.yxcc.products;
-      } else if (name == 2) {
-        this.typedate = slcx.date.products;
-      } else if (name == 3) {
-        this.typedate = dzx.date.products;
-      } else if (name == 4) {
-        this.typedate = hytj.date.products;
-      } else if (name == 5) {
-        this.typedate = slcx.date.products;
-      } else if (name == 6) {
-        this.typedate = sg.date.products;
-      } else if (name == 7) {
-        this.typedate = rd.date.products;
-      } else if (name == 8) {
-        this.typedate = sc.date.products;
-      } else if (name == 9) {
-        this.typedate = slsg.date.products;
-      } else if (name == 10) {
-        this.typedate = rp.date.products;
-      } else if (name == 11) {
-        this.typedate = shuichan.date.products;
-      } else if (name == 12) {
-        this.typedate = ls.date.products;
-      } else if (name == 13) {
-        this.typedate = js.date.products;
-      } else if (name == 14) {
-        this.typedate = ly.date.products;
-      } else if (name == 15) {
-        this.typedate = rb.date.products;
-      } else if (name == 16) {
-        this.typedate = ss.date.products;
-      } else if (name == 17) {
-        this.typedate = shushi.date.products;
-      } else if (name == 18) {
-        this.typedate = xxsc.date.products;
-      } else if (name == 19) {
-        this.typedate = rqdl.date.products;
-      } else if (name == 20) {
-        this.typedate = lwss.date.products;
-      } else if (name == 21) {
-        this.typedate = hxsc.date.products;
-      } else if (name == 22) {
-        this.typedate = rpxg.date.products;
-      } else if (name == 23) {
-        this.typedate = xxls.products;
-      } else if (name == 24) {
-        this.typedate = jggd.date.products;
-      } else if (name == 25) {
-        this.typedate = jsyl.date.products;
-      } else if (name == 26) {
-        this.typedate = lytw.date.products;
-      } else if (name == 27) {
-        this.typedate = ssmd.date.products;
-      }
+    async changeDate(name, index) {
+
+      await axios.get(`http://49.232.154.155:2999/goods/list?list=${name}`).then(response=> {
+            this.typedate = response.data[0].products
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+      
     }
   },
   created() {
     //删除标题
-    // this.homeList.category_list.splice(0, 1);
-    // console.log(this.homeList.category_list)
+
     this.homeData.data.products.forEach((item, index) => {
       if (!item.image) {
         this.homeData.data.products.splice(index, 1);

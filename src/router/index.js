@@ -19,9 +19,18 @@ import Mine from '../pages/Mine.vue';
 import Login from '../pages/Login.vue';
 import Privacy from '../pages/Privacy.vue';
 import Agreement from '../pages/Agreement.vue';
+import AboutUs from '../pages/AboutUs.vue';
+import Address from '../pages/Address.vue';
+import Order from '../pages/Order.vue';
+import Security from '../pages/Security.vue';
+import Help from '../pages/Help.vue';
+import Feedback from '../pages/Feedback.vue';
+import Mineaddress from '../pages/Mineaddress.vue';
+import Reg from '../pages/R.vue';
 import Detail from '../pages/Detail.vue';
 import Search from '../pages/Search.vue'
 import Article from '../pages/Article.vue';
+import store from '../store';
 
 let router = new VueRouter({
     routes:[
@@ -37,7 +46,10 @@ let router = new VueRouter({
         {
             name: 'cart',
             path: '/cart',
-            component: Cart
+            component: Cart,
+            meta:{
+                requiresAuth:true
+            }
         },
         {
             name: 'classify',
@@ -60,6 +72,11 @@ let router = new VueRouter({
             component: Login,
         },
         {
+            name: 'reg',
+            path: '/reg',
+            component: Reg,
+        },
+        {
             name: 'privacy',
             path: '/privacy',
             component: Privacy,
@@ -68,6 +85,62 @@ let router = new VueRouter({
             name: 'agreement',
             path: '/agreement',
             component: Agreement,
+        },
+        {
+            name: 'aboutus',
+            path: '/aboutus',
+            component: AboutUs,
+            meta:{
+                requiresAuth:true
+            }
+        },
+        {
+            name: 'address',
+            path: '/address',
+            component: Address,
+            meta:{
+                requiresAuth:true
+            }
+        },
+        {
+            name: 'order',
+            path: '/order',
+            component: Order,
+            meta:{
+                requiresAuth:true
+            }
+        },
+        {
+            name: 'security',
+            path: '/security',
+            component: Security,
+            meta:{
+                requiresAuth:true
+            }
+        },
+        {
+            name: 'feedback',
+            path: '/feedback',
+            component: Feedback,
+            meta:{
+                requiresAuth:true
+            }
+        },
+        {
+            name: 'help',
+            path: '/help',
+            component: Help,
+            meta:{
+                requiresAuth:true
+            }
+        },
+        {
+            name: 'mineaddress',
+            path: '/mineaddress',
+            component: Mineaddress,
+            meta:{
+                requiresAuth:true
+            }
         },
         {
             name: 'detail',
@@ -85,5 +158,37 @@ let router = new VueRouter({
             component:Article
         }
     ]
+});
+
+// 全局路由守卫
+router.beforeEach(async function(to,from,next){
+    if(to.meta.requiresAuth){
+        let User = localStorage.getItem('username');
+        if(User){
+            let res = await store.dispatch('checkLogin');
+            console.log('res:',res)
+            if(res === 400){
+                next({
+                    path:'/login',
+                    query:{
+                        targetURL: to.fullPath
+                    }
+                });
+            }else{
+                 next();
+            }
+           
+        }else{
+            router.push({
+                path:'/login',
+                query:{
+                    targetURL:to.fullPath
+                }
+            })
+        }
+   
+    }else{
+        next();
+    }
 })
 export default router;
