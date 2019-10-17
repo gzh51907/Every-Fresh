@@ -81,8 +81,14 @@ export default{
             );
             // this.$router.replace('/mine')
             if (data.code === 1) {
+              let { targetUrl } = this.$route.query;
+              console.log('targetUrl:',targetUrl);
+
               localStorage.setItem('username',username)
-              this.$router.push({path:'/mine'})
+              // this.$router.push({path:'/mine'})
+               this.$router.replace({
+                 path: targetUrl || "/mine"
+               });
              
             }else if(data.code === 0){
               alert("用户名或密码不正确");

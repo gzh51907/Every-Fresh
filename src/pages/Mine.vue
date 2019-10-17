@@ -72,7 +72,14 @@
         methods:{
             goto(name){
                 this.$router.push({name});
-            }
+            },
+            created() {
+              //获取url地址参数
+              
+              this.activeIndex = this.$route.path;
+            
+              this.$store.dispatch('checkLogin');
+            },
         },
        
     }
