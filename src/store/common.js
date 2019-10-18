@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-16 16:57:00
+ * @LastEditTime: 2019-10-18 10:59:32
+ * @LastEditors: Please set LastEditors
+ */
 import axios from 'axios';
 
 export default {
@@ -26,22 +33,23 @@ export default {
             let user = localStorage.getItem("user");
             if(!user){
                 context.commit('logout');
-            }else{
-                user = JSON.parse(user);
-                // 发起ajax请求，校验token是否过期
-                let {data} = await axios.get('http://localhost:1907/verify',{
-                    headers:{
-                        Authorization:user.Authorization
-                    }
-                })
-                // 放置刷新vuex数据丢失的问题
-                if(data.code===1){
-                    context.commit('login',user);
-                }else{
-                    context.commit('logout');
-                    return 400
-                }
             }
+            // else{
+            //     user = JSON.parse(user);
+            //     // 发起ajax请求，校验token是否过期
+            //     let {data} = await axios.get('http://localhost:1907/verify',{
+            //         headers:{
+            //             Authorization:user.Authorization
+            //         }
+            //     })
+            //     // 放置刷新vuex数据丢失的问题
+            //     if(data.code===1){
+            //         context.commit('login',user);
+            //     }else{
+            //         context.commit('logout');
+            //         return 400
+            //     }
+            // }
             return 200;
         }
     }

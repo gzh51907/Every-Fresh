@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-17 20:04:33
+ * @LastEditTime: 2019-10-18 19:19:41
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -81,19 +81,19 @@
                     </div>
                     <div class="product-ctrl">
                       <img alt class="product-ctrl-bg" width="48" height="22" />
-                      <div v-if="item.normalProducts.sell_out" class="product-cart-btns">
+                      <div v-if="getCart_show(item.normalProducts.sku)" class="product-cart-btns">
                         <img
                           src="../assets/img3/sub-btn.png"
                           alt
                           class="product-cart-btn sub"
-                          @click="sub(item.normalProducts.sku)"
+                          @click="sub(item.normalProducts.sku,getQty(item.normalProducts.sku))"
                         />
-                        <div class="product-cart-num">{{item.normalProducts.showOrder}}</div>
+                        <div class="product-cart-num">{{getQty(item.normalProducts.sku)}}</div>
                         <img
                           src="../assets/img3/add-btn.png"
                           alt
                           class="product-cart-btn add"
-                          @click="add(item.normalProducts.sku)"
+                          @click="add(item.normalProducts.sku,getQty(item.normalProducts.sku))"
                         />
                       </div>
                       <img
@@ -153,10 +153,23 @@ export default {
       categoryData: "",
       activeKey: 0,
       classify: "",
-      goodsdata: "",
+      goodsdata: ""
+      // qty:1,
     };
   },
-  components: {},
+  computed: {
+    getQty() {
+      return function(sku) {
+        return this.$store.getters.getQty(sku);
+      };
+    
+    },
+    getCart_show(){
+      return function(sku){
+        return this.$store.getters.getCart_show(sku);
+      }
+    }
+  },
   methods: {
     shift(index) {
       if (index == 0) {
@@ -201,50 +214,59 @@ export default {
     },
     addCart(sku) {
       //加入购物车
-      
       let a = this.classify.cellList.filter(item => item.cellType == 7);
-      a.forEach(item => {
-        if (item.normalProducts.sku == sku) {
-          item.normalProducts.sell_out = true;
-        }
-      });
-      let currentGoods = this.$store.state.cart.cartList.filter(item=>item.normalProducts.sku === sku)[0];
-      if(currentGoods){///如果有则修改数量加一
-        let showOrder = currentGoods.normalProducts.showOrder ++;
-      }else { //没有就直接增加
-          let goods = a.filter(item=>item.normalProducts.sku == sku)[0];
-        this.$store.commit('addCart',goods);
-          
+       this.$store.state.cart.cartList.forEach(item=>{
+         if(item.sku == sku){
+           item.cart_show = false;
+         }
+       });
+      let currentGoods = this.$store.state.cart.cartList.filter(
+        item => item.sku === sku
+      )[0];
+      if (currentGoods) {
+        ///如果有则修改数量加一
+        currentGoods.qty++;
+      } else {
+        //没有就直接增加
+        let goods = {};
+        a.forEach(item => {
+          if (item.normalProducts.sku == sku) {
+            goods.goods_name = item.normalProducts.name;
+            goods.sku = item.normalProducts.sku;
+            if(item.normalProducts.pricePro.vip){
+              goods.vip_price = item.normalProducts.pricePro.vip.price;
+            }else{
+               goods.vip_price = '';
+            }
+            
+            goods.noVip_price = item.normalProducts.pricePro.noVip.price;
+            goods.goods_image = item.normalProducts.image;
+            goods.goods_tag = item.normalProducts.promotionTag.name;
+            goods.qty = 1;
+            goods.stock = item.normalProducts.stock;
+            goods.cart_show = true;
+          }
+        });
+        this.$store.commit("addCart", goods);
       }
     },
-    sub(sku) {
-      let a = this.classify.cellList.filter(item => item.cellType == 7);
-      a.forEach(item => {
-        if (item.normalProducts.sku == sku) {
-          item.normalProducts.showOrder--;
-          if (item.normalProducts.showOrder < 1) {
-            this.$store.commit('removeQty',sku);
-            item.normalProducts.sell_out = false;
-          }
-        }
-      });
+    sub(sku, qty) {
+      qty--;
+      if (qty < 1) { 
+       
+       this.$store.state.cart.cartList.forEach(item=>{
+         if(item.sku == sku){
+           item.cart_show = false;
+         }
+       })
+        this.$store.commit("removeQty", sku);
+      }
+      this.$store.commit("changeQty", { sku, qty });
     },
-    add(sku) {
-      let a = this.classify.cellList.filter(item => item.cellType == 7);
-      a.forEach(item => {
-        if (item.normalProducts.sku == sku) {
-          item.normalProducts.showOrder++;
-          if (item.normalProducts.showOrder > item.normalProducts.stock) {
-            item.normalProducts.showOrder = item.normalProducts.stock;
-            alert('超出库存数')
-            // item.normalProducts.sell_out = false;
-            // this.$message ({
-            //   type:'info',
-            //   message:'超出库存数'
-            // })
-          }
-        }
-      });
+    add(sku, qty) {
+      qty++;
+      this.$store.commit("changeQty", { sku, qty });
+  
     },
     toGoods(groupId) {
       let groups = document.getElementsByClassName("category-title");

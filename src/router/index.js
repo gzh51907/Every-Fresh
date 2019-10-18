@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-16 17:00:33
+ * @LastEditTime: 2019-10-18 11:14:23
  * @LastEditors: Please set LastEditors
  */
 import Vue from 'vue';
@@ -165,26 +165,28 @@ router.beforeEach(async function(to,from,next){
     if(to.meta.requiresAuth){
         let User = localStorage.getItem('username');
         if(User){
-            let res = await store.dispatch('checkLogin');
-            console.log('res:',res)
-            if(res === 400){
-                next({
-                    path:'/login',
-                    query:{
-                        targetURL: to.fullPath
-                    }
-                });
-            }else{
-                 next();
-            }
-           
+            // let res = await store.dispatch('checkLogin');
+            // console.log('res:',res)
+            // if(res === 400){
+            //     next({
+            //         path:'/login',
+            //         query:{
+            //             targetURL: to.fullPath
+            //         }
+            //     });
+            // }else{
+            //      next();
+            // }
+           next();
         }else{
+            console.log(to.fullPath)
             router.push({
                 path:'/login',
                 query:{
                     targetURL:to.fullPath
                 }
             })
+            
         }
    
     }else{

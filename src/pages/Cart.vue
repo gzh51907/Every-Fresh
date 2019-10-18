@@ -2,7 +2,7 @@
  * @Description: In User Settings Edita
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-17 20:03:49
+ * @LastEditTime: 2019-10-18 16:12:53
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -74,7 +74,7 @@
                     class="P-item-img"
                     width="70"
                     height="70"
-                    :src="item.normalProducts.image"
+                    :src="item.goods_image"
                     alt
                   />
                 </div>
@@ -82,36 +82,36 @@
                   <p
                     class="P-item-info-line P-item-name"
                     style="width:70%;"
-                  >{{item.normalProducts.name}}</p>
+                  >{{item.goods_name}}</p>
                   <p class="P-item-info-line P-item-tags">
                     <span
                       class="P-item-tag place-tag"
                       style="background-color:rgb(255,255,255)"
-                      v-if="item.normalProducts.promotionTag.name"
-                    >{{item.normalProducts.promotionTag.name}}</span>
+                      v-if="item.goods_tag"
+                    >{{item.goods_tag}}</span>
                   </p>
                   <div class="P-item-info-line P-item-price flex" style="color:rgb(255,72,145)">
                     <span class="P-item-price-unit" style="color:rgb(255,72,145)">￥</span>
                     <span
                       class="P-item-price-price"
                       style="color:rgb(255,72,145)"
-                    >{{item.normalProducts.pricePro.noVip.price/100}}</span>
+                    >{{item.noVip_price/100}}</span>
                     <span
                       class="P-item-price-origin"
                       style="color:rgb(150,150,150)"
-                      v-if="item.normalProducts.pricePro.vip"
-                    >￥{{item.normalProducts.pricePro.vip.price/100}}</span>
+                      v-if="item.vip_price"
+                    >￥{{item.vip_price/100}}</span>
                   </div>
                   <div class="P-item-controller flex">
-                    <span class="P-item-controller-btn sub" @click="sub(item.normalProducts.sku)">-</span>
-                    <span class="P-item-controller-num">{{item.normalProducts.showOrder}}</span>
-                    <span class="P-item-controller-btn add" @click="add(item.normalProducts.sku)">+</span>
+                    <span class="P-item-controller-btn sub" @click="sub(item.sku,item.qty)">-</span>
+                    <span class="P-item-controller-num">{{item.qty}}</span>
+                    <span class="P-item-controller-btn add" @click="add(item.sku,item.qty)">+</span>
                   </div>
                 </div>
               </div>
 
               <div
-                @click="removeItem(item.normalProducts.sku)"
+                @click="removeItem(item.sku)"
                 class="P-item-delete flex"
                 style="opacity:1"
               >
@@ -247,34 +247,41 @@ export default {
         this.titleShow = true;
       }
     },
-    changeQty(sku) {
+    changeQty(sku,qty) {
       //id 和  修改数量
 
-      this, $store.commit("changeQty", { sku, showOrder });
+      this.$store.commit("changeQty", { sku, qty });
     },
-    sub(sku) {
-      let cartList = this.$store.state.cart.cartList;
-      // console.log(cartList);
-      cartList.forEach(item => {
-        if (item.normalProducts.sku == sku) {
-          item.normalProducts.showOrder--;
-          if (item.normalProducts.showOrder < 1) {
-            this.removeItem(sku)
-          }
-        }
-      });
+    sub(sku,qty) {
+      // let cartList = this.$store.state.cart.cartList;
+      // // console.log(cartList);
+      // cartList.forEach(item => {
+      //   if (item.normalProducts.sku == sku) {
+      //     item.normalProducts.showOrder--;
+      //     if (item.normalProducts.showOrder < 1) {
+      //       this.removeItem(sku)
+      //     }
+      //   }
+      // });
+      qty --;
+      if(qty<1){
+        this.removeItem(sku)
+      }
+      this.$store.commit('changeQty',{sku,qty});
     },
-    add(sku) {
-      let cartList = this.$store.state.cart.cartList;
-      cartList.forEach(item => {
-        if (item.normalProducts.sku == sku) {
-          item.normalProducts.showOrder++;
-          if (item.normalProducts.showOrder > item.normalProducts.stock) {
-            item.normalProducts.showOrder = item.normalProducts.stock;
-            alert("超出库存数");
-          }
-        }
-      });
+    add(sku,qty) {
+      qty++;
+      this.$store.commit('changeQty',{sku,qty});
+      // let cartList = this.$store.state.cart.cartList;
+      // cartList.forEach(item => {
+      //   if (item.normalProducts.sku == sku) {
+      //     item.normalProducts.showOrder++;
+      //     if (item.normalProducts.showOrder > item.normalProducts.stock) {
+      //       item.normalProducts.showOrder = item.normalProducts.stock;
+      //       alert("超出库存数");
+      //     }
+      //   }
+      // });
     },
 
     jiesuan() {

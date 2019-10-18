@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-11 21:51:42
+ * @LastEditTime: 2019-10-18 11:18:26
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
 
 
@@ -81,13 +88,13 @@ export default{
             );
             // this.$router.replace('/mine')
             if (data.code === 1) {
-              let { targetUrl } = this.$route.query;
-              console.log('targetUrl:',targetUrl);
+              let { targetURL } = this.$route.query;
+              // console.log('targetUrl:',this.$route);
 
               localStorage.setItem('username',username)
               // this.$router.push({path:'/mine'})
                this.$router.replace({
-                 path: targetUrl || "/mine"
+                 path: targetURL || "/mine"
                });
              
             }else if(data.code === 0){
