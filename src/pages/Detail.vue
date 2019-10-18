@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-16 16:57:41
+ * @LastEditTime: 2019-10-18 11:41:19
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
     <div class="product-detail">
         <div class="detail-title-container">
@@ -180,10 +187,10 @@
                 <div class="image-spot-img"
                 style="background-image: url(&quot;//static-as.missfresh.cn/frontend/item/static/img/shop-icon.03511f0.png&quot;);">
                 </div>
-                <!----> <span class="image-spot-dot">1</span>
+                <!----> <span class="image-spot-dot" style="width:20px" @click="toCart">{{cartLength}}</span>
             </div>
             <div class="switch-button-container unclickable flex add-cart-btn clickable">
-                <div class="add-cart-btn">加入购物车</div>
+                <div class="add-cart-btn" @click="addCart(detailDate.data.sku)">加入购物车</div>
                 <!---->
             </div>
         </div>
@@ -204,9 +211,25 @@ export default {
             detailDate:{}
         }
     },
+    computed:{
+        cartLength(){
+            return this.$store.getters.cartLength;
+        }
+    },
     methods:{
         onChange(index){
             this.current = index;
+        },
+        toCart(){
+            this.$router.push({
+                path:'/cart'
+            })
+        },
+        addCart(sku){
+            let currentGoods = this.$store.state.cart.cartList.filter(item=>item.normalProducts.sku === sku)[0];
+            if(currentGoods){
+                
+            }
         }
     },
     components:{
@@ -226,12 +249,13 @@ export default {
         // });
 
         console.log(detailData)
+        console.log(this.detailDate)
     }
 }
 </script>
 <style lang="scss" scoped>
 img{
-    width:auto;
+    width: auto;
 }
 .flex {
     display: -ms-flexbox;

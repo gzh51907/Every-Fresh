@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-16 17:54:05
+ * @LastEditTime: 2019-10-18 19:24:09
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -218,7 +218,7 @@
                                     <div class="item-cart">
                                       <div class="product-item-cart">
                                         <div class="cart">
-                                          <img
+                                          <img 
                                             src="../assets/public img/img_20170425134548759.png"
                                             class="image"
                                           />
