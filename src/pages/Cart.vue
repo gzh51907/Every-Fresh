@@ -2,7 +2,7 @@
  * @Description: In User Settings Edita
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-18 16:12:53
+ * @LastEditTime: 2019-10-18 21:06:34
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -70,19 +70,10 @@
               >
                 <input type="checkbox" class="C-checkbox" v-model="checkAll" />
                 <div class="P-item-image">
-                  <img
-                    class="P-item-img"
-                    width="70"
-                    height="70"
-                    :src="item.goods_image"
-                    alt
-                  />
+                  <img class="P-item-img" width="70" height="70" :src="item.goods_image" alt />
                 </div>
                 <div class="P-item-info">
-                  <p
-                    class="P-item-info-line P-item-name"
-                    style="width:70%;"
-                  >{{item.goods_name}}</p>
+                  <p class="P-item-info-line P-item-name" style="width:70%;">{{item.goods_name}}</p>
                   <p class="P-item-info-line P-item-tags">
                     <span
                       class="P-item-tag place-tag"
@@ -110,11 +101,7 @@
                 </div>
               </div>
 
-              <div
-                @click="removeItem(item.sku)"
-                class="P-item-delete flex"
-                style="opacity:1"
-              >
+              <div @click="removeItem(item.sku)" class="P-item-delete flex" style="opacity:1">
                 <span>删除</span>
               </div>
             </div>
@@ -178,25 +165,45 @@
             </div>
             <div class="product-title">{{item.name}}</div>
             <div class="product-subtitle">{{item.subtitle}}</div>
-            <div class="product-bottom">
-              <div class="product-prices">
-                <span
-                  class="sub-price"
-                  style="color:rgb(255,72,145)"
-                  v-if="item.pricePro.vip"
-                >￥{{item.pricePro.vip.price/100}}</span>
-              </div>
+            <div class="product-bottom"> 
               <div class="product-prices">
                 <span
                   class="main-price"
-                  style="color:rgb(150,150,150)"
+                  style="color:rgb(255,72,145)"
                 >￥{{item.pricePro.noVip.price/100}}</span>
               </div>
+              <div class="product-prices">
+                <span
+                  class="sub-price"
+                  style="color:rgb(150,150,150)"
+                  v-if="item.pricePro.vip"
+                >￥{{item.pricePro.vip.price/100}}</span>
+              </div>
+             
             </div>
             <div class="product-ctrl">
               <img class="product-ctrl-bg" src="../assets/img3/blur-bg.png" alt />
-
-              <img class="product-addcart-img" src="../assets/img3/new-cart.png" alt />
+              <div v-if="getCart_show(item.sku)" class="product-cart-btns">
+                <img
+                  src="../assets/img3/sub-btn.png"
+                  alt
+                  class="product-cart-btn sub"
+                  @click="sub(item.sku,getQty(item.sku))"
+                />
+                <div class="product-cart-num">{{getQty(item.sku)}}</div>
+                <img
+                  src="../assets/img3/add-btn.png"
+                  alt
+                  class="product-cart-btn add"
+                  @click="add(item.sku,getQty(item.sku))"
+                />
+              </div>
+              <img
+                class="product-addcart-img" v-else
+                src="../assets/img3/new-cart.png"
+                alt
+                @click="addCart(item.sku)"
+              />
             </div>
           </div>
         </div>
@@ -234,6 +241,8 @@ export default {
       checkAll: true
     };
   },
+
+  
   methods: {
     chooseAddress() {
       this.addressShow = true;
@@ -247,49 +256,84 @@ export default {
         this.titleShow = true;
       }
     },
-    changeQty(sku,qty) {
+    changeQty(sku, qty) {
       //id 和  修改数量
 
       this.$store.commit("changeQty", { sku, qty });
     },
-    sub(sku,qty) {
-      // let cartList = this.$store.state.cart.cartList;
-      // // console.log(cartList);
-      // cartList.forEach(item => {
-      //   if (item.normalProducts.sku == sku) {
-      //     item.normalProducts.showOrder--;
-      //     if (item.normalProducts.showOrder < 1) {
-      //       this.removeItem(sku)
-      //     }
-      //   }
-      // });
-      qty --;
-      if(qty<1){
-        this.removeItem(sku)
+    sub(sku, qty) {
+      qty--;
+      if (qty < 1) {
+        this.$store.state.cart.cartList.forEach(item => {
+          if (item.sku == sku) {
+            item.cart_show = false;
+          }
+        });
+        this.removeItem(sku);
       }
-      this.$store.commit('changeQty',{sku,qty});
+      this.$store.commit("changeQty", { sku, qty });
     },
-    add(sku,qty) {
+    add(sku, qty) {
       qty++;
-      this.$store.commit('changeQty',{sku,qty});
-      // let cartList = this.$store.state.cart.cartList;
-      // cartList.forEach(item => {
-      //   if (item.normalProducts.sku == sku) {
-      //     item.normalProducts.showOrder++;
-      //     if (item.normalProducts.showOrder > item.normalProducts.stock) {
-      //       item.normalProducts.showOrder = item.normalProducts.stock;
-      //       alert("超出库存数");
-      //     }
-      //   }
-      // });
+      this.$store.commit("changeQty", { sku, qty });
     },
+  addCart(sku){
+    this.titleShow = false;
+     let a = this.recommend;
+      this.$store.state.cart.cartList.forEach(item => {
+        if (item.sku == sku) {
+          item.cart_show = false;
+        }
+      });
+      let currentGoods = this.$store.state.cart.cartList.filter(
+        item => item.sku === sku
+      )[0];
+      if (currentGoods) {
+        currentGoods.qty++;
+      } else {
+        let goods = {};
+        // console.log(a)
+        a.forEach(item => {
+          if (item.sku == sku) {
+            goods.goods_name = item.name;
+            goods.sku = item.sku;
+            if (item.pricePro.vip) {
+              goods.vip_price = item.pricePro.vip.price;
+            } else {
+              goods.vip_price = "";
+            }
 
+            goods.noVip_price = item.pricePro.noVip.price;
+            goods.goods_image = item.image;
+            goods.goods_tag = item.promotionTag.name;
+            goods.qty = 1;
+            goods.stock = item.stock;
+            goods.cart_show = true;
+          }
+        });
+        this.$store.commit("addCart", goods);
+      }
+  },
     jiesuan() {
+      let api = 'http://49.232.154.155:2999/cart/create';
+      let userid = JSON.parse(localStorage.getItem('username'));
+      this.cartList.forEach(item=>{
+        // console.log(item)
+       axios.post(api,{
+         sku:item.sku,
+         goodsname:item.goods_name,
+          userid,
+          price:item.noVip_price/100,
+          number:item.qty,
+          stock:item.stock,
+          imageurl:item.image
+       })
+      })
+      
       alert("购买成功");
     }
   },
   computed: {
-   
     cartLength() {
       return this.$store.getters.cartLength;
     },
@@ -299,12 +343,23 @@ export default {
     },
     totalPrice() {
       return this.$store.getters.totalPrice;
+    },
+      getQty() {
+      return function(sku) {
+        return this.$store.getters.getQty(sku);
+      };
+    },
+    getCart_show() {
+      return function(sku) {
+        return this.$store.getters.getCart_show(sku);
+      };
     }
   },
   created() {
     if (this.$store.getters.cartLength) {
       this.titleShow = false;
     }
+    
   }
 };
 </script>

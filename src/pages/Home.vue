@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-18 19:24:09
+ * @LastEditTime: 2019-10-18 20:08:55
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -217,8 +217,27 @@
                                     </div>
                                     <div class="item-cart">
                                       <div class="product-item-cart">
-                                        <div class="cart">
-                                          <img 
+                                        <div
+                                          class="product-cart-btns"
+                                          v-if="getCart_show(item.sku)"
+                                        >
+                                          <img
+                                            src="../assets/img3/sub-btn.png"
+                                            alt
+                                            class="product-cart-btn sub"
+                                            @click.stop="sub(item.sku,getQty(item.sku))"
+                                          />
+                                          <div class="product-cart-num">{{getQty(item.sku)}}</div>
+                                          <img
+                                            src="../assets/img3/add-btn.png"
+                                            alt
+                                            class="product-cart-btn add"
+                                            @click.stop="add(item.sku,getQty(item.sku))"
+                                          />
+                                        </div>
+                                        <div class="cart" v-else>
+                                          <img
+                                            @click.stop="addCart(item.sku)"
                                             src="../assets/public img/img_20170425134548759.png"
                                             class="image"
                                           />
@@ -238,9 +257,13 @@
               </div>
             </div>
           </van-tab>
-          <van-tab v-for="(index,idx) in listdate" :key="index.internal_id" :title="index.name" v-if="idx != 0">
+          <van-tab
+            v-for="(index,idx) in listdate"
+            :key="index.internal_id"
+            :title="index.name"
+            v-if="idx != 0"
+          >
             <div
-              
               class="product-list-item-wrap"
               v-for="item in typedate"
               style="background-color: rgb(255, 255, 255);"
@@ -323,14 +346,26 @@
                       </div>
                       <div class="item-cart">
                         <div class="product-item-cart">
-                          <!---->
-                          <div class="cart">
+                          <div class="product-cart-btns" v-if="getCart_show(item.sku)">
+                            <img
+                              src="../assets/img3/sub-btn.png"
+                              alt
+                              class="product-cart-btn sub"
+                              @click.stop="sub(item.sku,getQty(item.sku))"
+                            />
+                            <div class="product-cart-num">{{getQty(item.sku)}}</div>
+                            <img
+                              src="../assets/img3/add-btn.png"
+                              alt
+                              class="product-cart-btn add"
+                              @click.stop="add(item.sku,getQty(item.sku))"
+                            />
+                          </div>
+                          <div class="cart" @click.stop="add2Cart(item.sku)" v-else>
                             <img src="../assets/public img/img_20170425134548759.png" class="image" />
-                            
                           </div>
                         </div>
                       </div>
-                      <!---->
                     </div>
                   </div>
                 </section>
@@ -361,41 +396,6 @@
             </div>
           </van-tab>
         </van-tabs>
-
-        <!-- <div class="category-nav-btn"></div> -->
-        <!-- <div class="category-nav-img" style="display: none;">
-                <h3>
-                    全部品类
-                    <i></i>
-                </h3>
-                <ul class="category-nav-ul">
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20181212225039946.png?mryxw=120&amp;mryxh=120&quot;);"></i> <h4>热销爆品</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190104093258105.png?mryxw=140&amp;mryxh=140&quot;);"></i> <h4>优鲜菜场</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190516225131129.jpg?mryxw=360&amp;mryxh=360&quot;);"></i> <h4>时令尝鲜</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190731151220429.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>大闸蟹</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190218143311278.png?mryxw=1059&amp;mryxh=1058&quot;);"></i> <h4>会员特价</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190516151037947.jpg?mryxw=360&amp;mryxh=360&quot;);"></i> <h4>时令尝鲜</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190802103405008.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>水果</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190722173402139.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>肉蛋</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190802103540761.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>蔬菜</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190415010710117.png?mryxw=96&amp;mryxh=96&quot;);"></i> <h4>时令水果</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190731150330705.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>乳品</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190731150439766.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>水产</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190731150537413.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>零食</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190731150633429.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>酒水</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190802104448761.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>粮油</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190731150742469.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>日百</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190731150834995.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>速食</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190731150939014.jpg?mryxw=500&amp;mryxh=500&quot;);"></i> <h4>熟食</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190411215607573.png?mryxw=96&amp;mryxh=96&quot;);"></i> <h4>新鲜蔬菜</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190411233944397.png?mryxw=96&amp;mryxh=96&quot;);"></i> <h4>肉禽蛋类</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20181212225647021.png?mryxw=140&amp;mryxh=140&quot;);"></i> <h4>卤味熟食</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190411215703249.png?mryxw=96&amp;mryxh=96&quot;);"></i> <h4>海鲜水产</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190411215729751.png?mryxw=96&amp;mryxh=96&quot;);"></i> <h4>乳品雪糕</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20181212225358505.png?mryxw=140&amp;mryxh=140&quot;);"></i> <h4>休闲零食</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20181212225750228.png?mryxw=140&amp;mryxh=140&quot;);"></i> <h4>坚果糕点</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20181212225617637.png?mryxw=140&amp;mryxh=140&quot;);"></i> <h4>酒水饮料</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190329212200665.png?mryxw=144&amp;mryxh=144&quot;);"></i> <h4>粮油调味</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190329213300525.png?mryxw=144&amp;mryxh=144&quot;);"></i> <h4>速食面点</h4></li>
-                    <li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190516181026862.png?mryxw=144&amp;mryxh=144&quot;);"></i> <h4>家居清洁</h4></li><li><i class="icon" style="background-image: url(&quot;https://j-image.missfresh.cn/mis_img_20190516181359703.png?mryxw=144&amp;mryxh=144&quot;);"></i> <h4>美妆个护</h4></li>
-                </ul>
-            </div> 
-            <div class="category-nav-mask01" style="display: none;"></div>
-        <div class="category-nav-mask02" style="display: none;"></div>-->
-        <!-- <div id="slideLoading" class="slideLoading" style="display: none;">
-                <img src="https://j-image.missfresh.cn/img_20181204113632737.gif" alt="">
-            </div> 
-            <div id="address-warning" class="address-warning" style="display: none;">
-                <i></i> <em></em>
-        </div>-->
       </section>
     </div>
   </div>
@@ -423,31 +423,120 @@ export default {
       val: 5
     };
   },
+  computed: {
+    getQty() {
+      return function(sku) {
+        return this.$store.getters.getQty(sku);
+      };
+    },
+    getCart_show() {
+      return function(sku) {
+        return this.$store.getters.getCart_show(sku);
+      };
+    }
+  },
   methods: {
     goto(sku) {
       this.$router.push({ name: "detail", query: { sku } });
     },
     async changeDate(name, index) {
-
-      await axios.get(`http://49.232.154.155:2999/goods/list?list=${name}`).then(response=> {
-            this.typedate = response.data[0].products
+      await axios
+        .get(`http://49.232.154.155:2999/goods/list?list=${name}`)
+        .then(response => {
+          this.typedate = response.data[0].products;
         })
-        .catch(function (error) {
-            console.log(error);
+        .catch(function(error) {
+          console.log(error);
         });
+    },
+    addCart(sku) {
+      let a = this.homeData.data.products;
+      this.$store.state.cart.cartList.forEach(item => {
+        if (item.sku == sku) {
+          item.cart_show = false;
+        }
+      });
+      let currentGoods = this.$store.state.cart.cartList.filter(
+        item => item.sku === sku
+      )[0];
+      if (currentGoods) {
+        currentGoods.qty++;
+      } else {
+        let goods = {};
+        a.forEach(item => {
+          if (item.sku == sku) {
+            goods.goods_name = item.name;
+            goods.sku = item.sku;
+            if (item.vip_price_pro.price_down.price) {
+              goods.vip_price = item.vip_price_pro.price_down.price;
+            } else {
+              goods.vip_price = "";
+            }
 
-      
+            goods.noVip_price = item.vip_price_pro.price_up.price;
+            goods.goods_image = item.image;
+            goods.goods_tag = item.product_tags[0].name;
+            goods.qty = 1;
+            goods.stock = item.stock;
+            goods.cart_show = true;
+          }
+        });
+        this.$store.commit("addCart", goods);
+      }
+    },
+    add2Cart(sku) {
+      let a = this.typedate;
+      this.$store.state.cart.cartList.forEach(item => {
+        if (item.sku == sku) {
+          item.cart_show = false;
+        }
+      });
+      let currentGoods = this.$store.state.cart.cartList.filter(
+        item => item.sku === sku
+      )[0];
+      if (currentGoods) {
+        currentGoods.qty++;
+      } else {
+        let goods = {};
+        a.forEach(item => {
+          if (item.sku == sku) {
+            goods.goods_name = item.name;
+            goods.sku = item.sku;
+            if (item.vip_price_pro.price_down.price) {
+              goods.vip_price = item.vip_price_pro.price_down.price;
+            } else {
+              goods.vip_price = "";
+            }
+
+            goods.noVip_price = item.vip_price_pro.price_up.price;
+            goods.goods_image = item.image;
+            goods.goods_tag = item.product_tags[0].name;
+            goods.qty = 1;
+            goods.stock = item.stock;
+            goods.cart_show = true;
+          }
+        });
+        this.$store.commit("addCart", goods);
+      }
+    },
+    sub(sku, qty) {
+      qty--;
+      if (qty < 1) {
+        this.$store.state.cart.cartList.forEach(item => {
+          if (item.sku == sku) {
+            item.cart_show = false;
+          }
+        });
+        this.$store.commit("removeQty", sku);
+      }
+      this.$store.commit("changeQty", { sku, qty });
+    },
+    add(sku, qty) {
+      qty++;
+      this.$store.commit("changeQty", { sku, qty });
     }
   },
   async created() {
-    // await axios.delete(`http://127.0.0.1:3000/goods/listdel`).then(response=> {
-    //         console.log(response)
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
-    //删除标题
-
     this.homeData.data.products.forEach((item, index) => {
       if (!item.image) {
         this.homeData.data.products.splice(index, 1);
@@ -457,9 +546,7 @@ export default {
 
     this.listdate = this.homeList.category_list;
 
-    // console.log('list',this.listdate);
-    
-    
+    // console.log("list", homeData);
   }
 };
 </script>
@@ -811,6 +898,23 @@ em {
   display: block;
   -webkit-transform: translateY(18%);
   transform: translateY(18%);
+}
+.product-item-cart .product-cart-btns {
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  .product-cart-btn {
+    box-sizing: border-box;
+    width: 1.3125rem;
+    height: 1.3125rem;
+    z-index: 1;
+  }
+  .product-cart-num {
+    font-size: 0.875rem;
+    color: #4d4d4d;
+    line-height: 1.25rem;
+    padding: 0 0.5rem;
+  }
 }
 .product-item-image img {
   width: 120px;
