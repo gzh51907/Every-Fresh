@@ -215,7 +215,7 @@ export default {
     },
     async created(){
         let detailData = await axios.get(`http://49.232.154.155:2999/goods/detail?sku=${this.$route.query.sku}`);
-        console.log(1)
+        console.log(this.$route.query.sku)
         this.detailDate = detailData.data[0]
         // .then(response=> {
         //     console.log(response.data[0]);
@@ -225,11 +225,14 @@ export default {
         //     console.log(error);
         // });
 
-        console.log(this.detailDate.data.images)
+        console.log(detailData)
     }
 }
 </script>
 <style lang="scss" scoped>
+img{
+    width:auto;
+}
 .flex {
     display: -ms-flexbox;
     display: flex;

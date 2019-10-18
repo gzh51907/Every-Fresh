@@ -81,13 +81,14 @@ export default{
             );
             // this.$router.replace('/mine')
             if (data.code === 1) {
-              let { targetUrl } = this.$route.query;
-              console.log('targetUrl:',targetUrl);
+              let { targetURL } = this.$route.query;
+              console.log(this.$route.query)
+              console.log('targetUrl:',targetURL);
 
               localStorage.setItem('username',username)
               // this.$router.push({path:'/mine'})
                this.$router.replace({
-                 path: targetUrl || "/mine"
+                 path: targetURL || "/mine"
                });
              
             }else if(data.code === 0){

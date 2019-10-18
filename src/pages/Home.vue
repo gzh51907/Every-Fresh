@@ -305,7 +305,8 @@
                             <span class="sign">￥</span>
                             <span
                               class="price"
-                            >{{(item.vip_price_pro.price_down.price/100).toFixed(1)}}</span>
+                            >
+                            {{(item.vip_price_pro.price_down.price/100).toFixed(1)}}</span>
                             <span class="name"></span>
                             <!---->
                             <span
@@ -315,7 +316,8 @@
                               ￥
                               <span
                                 class="price has-line"
-                              >{{(item.vip_price_pro.price_up.price/100).toFixed(1)}}</span>
+                              >
+                              {{(item.vip_price_pro.price_up.price/100).toFixed(1)}}</span>
                             </span>
                             <!---->
                           </div>
@@ -430,7 +432,9 @@ export default {
     async changeDate(name, index) {
 
       await axios.get(`http://49.232.154.155:2999/goods/list?list=${name}`).then(response=> {
+        
             this.typedate = response.data[0].products
+            console.log(this.typedate)
         })
         .catch(function (error) {
             console.log(error);
@@ -439,6 +443,7 @@ export default {
       
     }
   },
+
   async created() {
     // await axios.delete(`http://127.0.0.1:3000/goods/listdel`).then(response=> {
     //         console.log(response)
