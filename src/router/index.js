@@ -33,6 +33,7 @@ import Article from '../pages/Article.vue';
 import store from '../store';
 
 let router = new VueRouter({
+    mode:'history',
     routes:[
         {
             name: 'home',
@@ -165,19 +166,8 @@ router.beforeEach(async function(to,from,next){
     if(to.meta.requiresAuth){
         let User = localStorage.getItem('username');
         if(User){
-            // let res = await store.dispatch('checkLogin');
-            // console.log('res:',res)
-            // if(res === 400){
-            //     next({
-            //         path:'/login',
-            //         query:{
-            //             targetURL: to.fullPath
-            //         }
-            //     });
-            // }else{
-            //      next();
-            // }
-           next();
+            next();
+           
         }else{
             console.log(to.fullPath)
             router.push({

@@ -54,7 +54,7 @@
                 </div>
                 <div class="single-columns-item category-single-category">
                   <div class="product-img-wrap">
-                    <img :src="item.normalProducts.image" alt class="product-img" />
+                    <img  @click="goDetail(item.normalProducts.sku)" :src="item.normalProducts.image" alt class="product-img" />
                     <div
                       v-if="item.normalProducts.promotionTag.name"
                       class="product-promote-tag"
@@ -171,6 +171,12 @@ export default {
     }
   },
   methods: {
+    goDetail(sku){
+      this.$router.push({
+        name:'detail',
+        query:{sku}
+      })
+    },
     shift(index) {
       if (index == 0) {
         this.classify = c1.c1.data;
@@ -283,6 +289,7 @@ export default {
   created() {
     this.categoryData = categoryList.categoryList.data;
     this.classify = c1.c1.data;
+    console.log(this.classify)
   }
 };
 </script>

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-18 20:08:55
+ * @LastEditTime: 2019-10-18 21:10:00
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -328,7 +328,8 @@
                             <span class="sign">￥</span>
                             <span
                               class="price"
-                            >{{(item.vip_price_pro.price_down.price/100).toFixed(1)}}</span>
+                            >
+                            {{(item.vip_price_pro.price_down.price/100).toFixed(1)}}</span>
                             <span class="name"></span>
                             <!---->
                             <span
@@ -338,7 +339,8 @@
                               ￥
                               <span
                                 class="price has-line"
-                              >{{(item.vip_price_pro.price_up.price/100).toFixed(1)}}</span>
+                              >
+                              {{(item.vip_price_pro.price_up.price/100).toFixed(1)}}</span>
                             </span>
                             <!---->
                           </div>
@@ -440,13 +442,14 @@ export default {
       this.$router.push({ name: "detail", query: { sku } });
     },
     async changeDate(name, index) {
-      await axios
-        .get(`http://49.232.154.155:2999/goods/list?list=${name}`)
-        .then(response => {
-          this.typedate = response.data[0].products;
+
+      await axios.get(`http://49.232.154.155:2999/goods/list?list=${name}`).then(response=> {
+        
+            this.typedate = response.data[0].products
+            // console.log(this.typedate)
         })
         .catch(function(error) {
-          console.log(error);
+          // console.log(error);
         });
     },
     addCart(sku) {
@@ -536,6 +539,7 @@ export default {
       this.$store.commit("changeQty", { sku, qty });
     }
   },
+
   async created() {
     this.homeData.data.products.forEach((item, index) => {
       if (!item.image) {
