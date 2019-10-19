@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-15 14:19:38
- * @LastEditTime: 2019-10-15 16:42:57
+ * @LastEditTime: 2019-10-19 10:25:02
  * @LastEditors: Please set LastEditors
  */
 import axios from 'axios';
@@ -19,29 +19,59 @@ let cart = {
         totalPrice(state){ //计算总价格
             //item.normalProducts.pricePro.noVip.price ---商品价格
             //item.normalProducts.showOrder            --商品数量
-            return state.cartList.reduce((prev,item)=>prev+item.normalProducts.pricePro.noVip.price*item.normalProducts.showOrder,0)
+            return state.cartList.reduce((prev,item)=>prev+item.noVip_price*item.qty,0);
+        },
+        getQty:(state)=>(sku)=>{ //获取该商品的数量
+            let qty1 = '';
+           state.cartList.forEach(item=>{
+                if(item.sku == sku){
+                  qty1 = item.qty  
+                }
+            })
+           
+            return qty1;
+        },
+        getCart_show:(state)=>(sku)=>{
+            let isok = '';
+            state.cartList.forEach(item=>{
+                if(item.sku == sku){
+                    isok = item.cart_show
+                }
+            })
+            return isok;
         }
     },
-    mutations:{
+    mutations:{  
         addCart(state,goods){
-            // console.log(goods);
             state.cartList.unshift(goods);
-            // console.log(state.cartList);
         },
-        changeQty(state,{sku,showOrder}){
+        changeQty(state,{sku,qty}){
             state.cartList.forEach(item=>{
-                if(item.normalProducts.sku == sku){ //修改商品数量
-                    item.normalProducts.showOrder = showOrder;
+                if(item.sku == sku){ //修改商品数量
+                    if(qty > item.stock){
+                        item.qty = item.stock;
+                        alert('库存不足')
+                    }else{
+                        item.qty = qty;
+                    }
+                    
                 }
             })
         },
         removeQty(state,sku){//删除商品
-            state.cartList = state.cartList.filter(item=>item.normalProducts.sku!=sku);
+            state.cartList = state.cartList.filter(item=>item.sku!=sku);
         },
         clearCart(state){
             state.cartList = [];//清空购物车
+        },
+        changeCheck(state,sku){ //修改商品的选中状态
+            state.cartList.forEach(item=>{
+                if(item.sku == sku){
+                    item.checkStatus = !item.checkStatus;
+                }
+            })
         }
-    }
+    },
 
       
 }

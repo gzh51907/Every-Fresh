@@ -2,21 +2,21 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 15:57:35
- * @LastEditTime: 2019-10-16 16:59:29
+ * @LastEditTime: 2019-10-17 20:57:46
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div>
-    <div class="header" v-show="!(path ==='/login' || path ==='/mine' || path ==='/privacy' || path ==='/agreement' || path === '/aboutus' || path ==='/help' || path ==='/address' || path ==='/mineaddress' || path ==='/reg' || path ==='/detail' || path === '/search') ">
+    <div class="header" v-show="!(path ==='/login' || path ==='/mine' || path ==='/privacy' || path ==='/agreement' || path === '/aboutus' || path ==='/help' || path ==='/address' || path ==='/mineaddress' || path ==='/reg' || path ==='/detail' || path === '/search' || path === '/cart') ">
       <div id="home-head" class="mall-home-head">
         <div class="adv-bar-blank-filler" style="height: 2.375rem;"></div>
-        <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 999;">
+        <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 10000;">
           <div
             class="vux-flexbox-item text-center location-wrap"
             style="margin-left: 8px; flex: 0 0 50%; text-align: left; padding-left: 1rem; float:left;margin-top:10px;"
           >
-            <div class="chrome-icon">
-              <img src="./assets/public img/img_20161108170831264.png" alt class="icon-img" style />
+            <div class="chrome-icon" style="width:55px">
+              <img src="./assets/public img/img_20161108170831264.png" alt class="icon-img"  />
               <div class="chrome-tips">
                 <div class="chrome-tips-text" style="display: none;"></div>
               </div>
@@ -71,16 +71,15 @@
             <span class="red-dot"></span>
             </router-link>
           </a>
-        <!-- </router-link> -->
-        <!-- <router-link to="/cart"> -->
-        <el-badge :value="cartLenght" class="item">
           <a href="javascript:;" class="weui-tabbar__item tab-shopcar">
-            <router-link to="/cart">
-            <i class="el-icon-shopping-cart-2 weui-tabbar__icon"></i>
-            <p class="weui-tabbar__label">购物车</p>
-            </router-link>
+            <el-badge :value="cartLenght" class="item">
+              <router-link to="/cart">
+              <i class="el-icon-shopping-cart-2 weui-tabbar__icon"></i>
+              <p class="weui-tabbar__label">购物车</p>
+              <span class="red-dot"></span>
+              </router-link>
+            </el-badge>
           </a>
-        </el-badge>
         <!-- </router-link> -->
         <!-- <router-link to="/mine"> -->
           <a href="javascript:;" class="weui-tabbar__item tab-mine">

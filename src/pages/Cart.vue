@@ -2,7 +2,7 @@
  * @Description: In User Settings Edita
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-15 17:47:00
+ * @LastEditTime: 2019-10-19 10:25:50
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -45,8 +45,6 @@
           <span class="C-locat-city" @click="chooseAddress">广州市天河区文化局</span>
           <div class="location-arrow"></div>
         </div>
-
-        
       </div>
       <p class="C-empty-text" v-if="titleShow">你还没有添加任何商品</p>
       <div class="C-block-wrap C-group-wrap" v-else>
@@ -54,8 +52,9 @@
           <div class="C-group-header">
             <!-- <div class="C-checkbox selected">
               <i class="C-checkbox-c"></i>
-            </div> -->
-            <input type="checkbox" class="C-checkbox" v-model="checkAll">
+            </div>-->
+            
+            <el-checkbox v-model="checkAll"></el-checkbox>
             <p class="C-group-title">2小时达</p>
             <span class="C-group-header-right">包邮</span>
           </div>
@@ -70,59 +69,40 @@
                 style="transition: -webkit-transform 200ms ease 0s;
                  transform: translate3d(0px, 0px, 0px);"
               >
-                <input type="checkbox" class="C-checkbox" v-model="checkAll">
+                <el-checkbox v-model="checkAll"></el-checkbox>
                 <div class="P-item-image">
-                  <img
-                    class="P-item-img"
-                    width="70"
-                    height="70"
-                    :src="item.normalProducts.image"
-                    alt
-                  />
+                  <img class="P-item-img" width="70" height="70" :src="item.goods_image" alt />
                 </div>
                 <div class="P-item-info">
-                  <p
-                    class="P-item-info-line P-item-name"
-                    style="width:70%;"
-                  >{{item.normalProducts.name}}</p>
+                  <p class="P-item-info-line P-item-name" style="width:70%;">{{item.goods_name}}</p>
                   <p class="P-item-info-line P-item-tags">
                     <span
                       class="P-item-tag place-tag"
                       style="background-color:rgb(255,255,255)"
-                      v-if="item.normalProducts.promotionTag.name"
-                    >{{item.normalProducts.promotionTag.name}}</span>
+                      v-if="item.goods_tag"
+                    >{{item.goods_tag}}</span>
                   </p>
                   <div class="P-item-info-line P-item-price flex" style="color:rgb(255,72,145)">
                     <span class="P-item-price-unit" style="color:rgb(255,72,145)">￥</span>
                     <span
                       class="P-item-price-price"
                       style="color:rgb(255,72,145)"
-                    >{{item.normalProducts.pricePro.noVip.price/100}}</span>
+                    >{{item.noVip_price/100}}</span>
                     <span
                       class="P-item-price-origin"
                       style="color:rgb(150,150,150)"
-                      v-if="item.normalProducts.pricePro.vip"
-                    >￥{{item.normalProducts.pricePro.vip.price/100}}</span>
+                      v-if="item.vip_price"
+                    >￥{{item.vip_price/100}}</span>
                   </div>
                   <div class="P-item-controller flex">
-                    <span
-                      class="P-item-controller-btn sub"
-                      @click="sub(item.normalProducts.sku)"
-                    >-</span>
-                    <span class="P-item-controller-num">{{item.normalProducts.showOrder}}</span>
-                    <span
-                      class="P-item-controller-btn add"
-                      @click="add(item.normalProducts.sku)"
-                    >+</span>
+                    <span class="P-item-controller-btn sub" @click="sub(item.sku,item.qty)">-</span>
+                    <span class="P-item-controller-num">{{item.qty}}</span>
+                    <span class="P-item-controller-btn add" @click="add(item.sku,item.qty)">+</span>
                   </div>
                 </div>
               </div>
 
-              <div
-                @click="removeItem(item.normalProducts.sku)"
-                class="P-item-delete flex"
-                style="opacity:1"
-              >
+              <div @click="removeItem(item.sku)" class="P-item-delete flex" style="opacity:1">
                 <span>删除</span>
               </div>
             </div>
@@ -186,31 +166,52 @@
             </div>
             <div class="product-title">{{item.name}}</div>
             <div class="product-subtitle">{{item.subtitle}}</div>
-            <div class="product-bottom">
-              <div class="product-prices">
-                <span
-                  class="sub-price"
-                  style="color:rgb(255,72,145)"
-                  v-if="item.pricePro.vip"
-                >￥{{item.pricePro.vip.price/100}}</span>
-              </div>
+            <div class="product-bottom"> 
               <div class="product-prices">
                 <span
                   class="main-price"
-                  style="color:rgb(150,150,150)"
+                  style="color:rgb(255,72,145)"
                 >￥{{item.pricePro.noVip.price/100}}</span>
               </div>
+              <div class="product-prices">
+                <span
+                  class="sub-price"
+                  style="color:rgb(150,150,150)"
+                  v-if="item.pricePro.vip"
+                >￥{{item.pricePro.vip.price/100}}</span>
+              </div>
+             
             </div>
             <div class="product-ctrl">
               <img class="product-ctrl-bg" src="../assets/img3/blur-bg.png" alt />
-              <img class="product-addcart-img" src="../assets/img3/new-cart.png" alt />
+              <div v-if="getCart_show(item.sku)" class="product-cart-btns">
+                <img
+                  src="../assets/img3/sub-btn.png"
+                  alt
+                  class="product-cart-btn sub"
+                  @click="sub(item.sku,getQty(item.sku))"
+                />
+                <div class="product-cart-num">{{getQty(item.sku)}}</div>
+                <img
+                  src="../assets/img3/add-btn.png"
+                  alt
+                  class="product-cart-btn add"
+                  @click="add(item.sku,getQty(item.sku))"
+                />
+              </div>
+              <img
+                class="product-addcart-img" v-else
+                src="../assets/img3/new-cart.png"
+                alt
+                @click="addCart(item.sku)"
+              />
             </div>
           </div>
         </div>
       </div>
       <div class="C-footer-wrap" v-if="!titleShow">
         <div class="C-footer-content flex" style="bottom:49px;">
-          <input type="checkbox" class="C-checkbox" v-model="checkAll">
+          <el-checkbox v-model="checkAll"></el-checkbox>
           <div class="C-footer-label">全选</div>
           <div class="C-footer-price">
             <p class="C-footer-total">
@@ -230,17 +231,20 @@ import axios from "axios";
 import recommend from "../assets/js-Data/recommend";
 import { Button } from "vant";
 import Vue from "vue";
-import { getCurves } from 'crypto';
+import { getCurves } from "crypto";
 Vue.use(Button);
 export default {
   data() {
     return {
       addressShow: false,
-      titleShow:true,
+      titleShow: true,
       recommend: recommend.data.products,
-      checkAll:true
+      checkAll: true, //全选状态
+      // isIndeterminate: true
     };
   },
+
+  
   methods: {
     chooseAddress() {
       this.addressShow = true;
@@ -250,42 +254,100 @@ export default {
     },
     removeItem(sku) {
       this.$store.commit("removeQty", sku);
-      if(this.$store.getters.cartLength == 0){
+      if (this.$store.getters.cartLength == 0) {
         this.titleShow = true;
       }
     },
-    changeQty(sku) {
+    changeQty(sku, qty) {
       //id 和  修改数量
 
-      this, $store.commit("changeQty", { sku, showOrder });
+      this.$store.commit("changeQty", { sku, qty });
     },
-    sub(sku) {
-      let cartList = this.$store.state.cart.cartList;
-      // console.log(cartList);
-      cartList.forEach(item => {
-        if (item.normalProducts.sku == sku) {
-          item.normalProducts.showOrder--;
-          if (item.normalProducts.showOrder <= 1) {
-            item.normalProducts.showOrder = 1;
+    sub(sku, qty) {
+      qty--;
+      if (qty < 1) {
+        this.$store.state.cart.cartList.forEach(item => {
+          if (item.sku == sku) {
+            item.cart_show = false;
           }
+        });
+        this.removeItem(sku);
+      }
+      this.$store.commit("changeQty", { sku, qty });
+    },
+    add(sku, qty) {
+      qty++;
+      this.$store.commit("changeQty", { sku, qty });
+    },
+  addCart(sku){
+    this.titleShow = false;
+     let a = this.recommend;
+      this.$store.state.cart.cartList.forEach(item => {
+        if (item.sku == sku) {
+          item.cart_show = false;
         }
       });
-    },
-    add(sku) {
-      let cartList = this.$store.state.cart.cartList;
-      cartList.forEach(item => {
-        if (item.normalProducts.sku == sku) {
-          item.normalProducts.showOrder++;
-          if (item.normalProducts.showOrder > item.normalProducts.stock) {
-            item.normalProducts.showOrder = item.normalProducts.stock;
-            alert("超出库存数");
+      let currentGoods = this.$store.state.cart.cartList.filter(
+        item => item.sku === sku
+      )[0];
+      if (currentGoods) {
+        currentGoods.qty++;
+      } else {
+        let goods = {};
+        // console.log(a)
+        a.forEach(item => {
+          if (item.sku == sku) {
+            goods.goods_name = item.name;
+            goods.sku = item.sku;
+            if (item.pricePro.vip) {
+              goods.vip_price = item.pricePro.vip.price;
+            } else {
+              goods.vip_price = "";
+            }
+
+            goods.noVip_price = item.pricePro.noVip.price;
+            goods.goods_image = item.image;
+            goods.goods_tag = item.promotionTag.name;
+            goods.qty = 1;
+            goods.stock = item.stock;
+            goods.cart_show = true;
+            // goods.checkStatus = true;
           }
-        }
-      });
+        });
+        this.$store.commit("addCart", goods);
+      }
+  },
+  // ChangeCheck(sku){
+   
+  // },
+    jiesuan() {
+      let api = 'http://49.232.154.155:2999/cart/create';
+      let userid = JSON.parse(localStorage.getItem('username'));
+      this.cartList.forEach(item=>{
+        // console.log(item)
+       axios.post(api,{
+         sku:item.sku,
+         goodsname:item.goods_name,
+          userid,
+          price:item.noVip_price/100,
+          number:item.qty,
+          stock:item.stock,
+          imageurl:item.image
+       })
+      })
+      
+      alert("购买成功");
     },
-    jiesuan(){
-      alert('购买成功');
-    }
+    // allCheck(val){
+       
+    //     // this.checkedCities = val ? cityOptions : [];
+    //     // this.isIndeterminate = false;
+    //   this.$store.state.cart.cartList.forEach(item=>{
+    //     // console.log(item.checkStatus)
+    //     item.checkStatus = this.checkAll;
+    //     console.log(item.checkStatus)
+    //   })
+    // }
   },
   computed: {
     cartLength() {
@@ -297,12 +359,29 @@ export default {
     },
     totalPrice() {
       return this.$store.getters.totalPrice;
-    }
+    },
+      getQty() {
+      return function(sku) {
+        return this.$store.getters.getQty(sku);
+      };
+    },
+    getCart_show() {
+      return function(sku) {
+        return this.$store.getters.getCart_show(sku);
+      };
+    },
+    // getCheckStatus(){
+    //     return function(sku){
+    //       console.log(this.$store.getters.getCheckStatus(sku));
+    //       return this.$store.getters.getCheckStatus(sku);
+    //     }
+    // }
   },
   created() {
-    if(this.$store.getters.cartLength){
+    if (this.$store.getters.cartLength) {
       this.titleShow = false;
     }
+    
   }
 };
 </script>
@@ -562,14 +641,14 @@ i {
           height: 0.4375rem;
         }
       }
-    
-    }  .C-empty-text {
-        padding: 8rem 0 4.375rem;
-        text-align: center;
-        font-size: 0.9375rem;
-        color: #7f7f7f;
-        line-height: 1.25rem;
-      }
+    }
+    .C-empty-text {
+      padding: 8rem 0 4.375rem;
+      text-align: center;
+      font-size: 0.9375rem;
+      color: #7f7f7f;
+      line-height: 1.25rem;
+    }
     .C-block-wrap {
       background: #fff;
       margin-top: 0.625rem;
@@ -583,12 +662,10 @@ i {
           box-align: center;
           display: flex;
           .C-checkbox {
-            
             width: 1.2rem;
             height: 1.2rem;
-         
           }
-        
+
           .C-group-title {
             flex: 1;
             font-size: 0.875rem;
@@ -621,13 +698,11 @@ i {
               z-index: 1;
               background: #fff;
               .C-checkbox {
-               
                 width: 1.2rem;
                 height: 1.2rem;
                 margin: 0 0.1875rem;
-                
               }
-              
+
               .P-item-image {
                 width: 4.375rem;
                 height: 4.375rem;
@@ -952,6 +1027,23 @@ i {
             height: 1.875rem;
             z-index: 2;
           }
+          .product-cart-btns {
+            display: flex;
+            align-items: center;
+            z-index: 2;
+            .product-cart-btn {
+              box-sizing: border-box;
+              width: 1.3125rem;
+              height: 1.3125rem;
+              z-index: 1;
+            }
+            .product-cart-num {
+              font-size: 0.875rem;
+              color: #4d4d4d;
+              line-height: 1.25rem;
+              padding: 0 0.5rem;
+            }
+          }
         }
       }
     }
@@ -974,9 +1066,9 @@ i {
         z-index: 99;
         .C-checkbox {
           width: 1.2rem;
-          height: 1.2rem;        
+          height: 1.2rem;
         }
-       
+
         .C-footer-label {
           margin-right: 0.625rem;
           font-size: 0.875rem;

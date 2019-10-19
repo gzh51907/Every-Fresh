@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 15:57:35
- * @LastEditTime: 2019-10-15 15:14:47
+ * @LastEditTime: 2019-10-17 20:44:56
  * @LastEditors: Please set LastEditors
  */
 import Vue from 'vue'
@@ -25,7 +25,6 @@ import axios from 'axios';
 Vue.prototype.$axios = axios;
 
 new Vue({
-  store,
   router,
   store,
   render: h => h(App),

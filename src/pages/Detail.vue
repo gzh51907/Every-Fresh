@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-16 16:57:41
+ * @LastEditTime: 2019-10-19 11:56:39
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
     <div class="product-detail">
         <div class="detail-title-container">
@@ -180,10 +187,10 @@
                 <div class="image-spot-img"
                 style="background-image: url(&quot;//static-as.missfresh.cn/frontend/item/static/img/shop-icon.03511f0.png&quot;);">
                 </div>
-                <!----> <span class="image-spot-dot">1</span>
+                <!----> <span class="image-spot-dot" style="width:20px" @click="toCart">{{cartLength}}</span>
             </div>
             <div class="switch-button-container unclickable flex add-cart-btn clickable">
-                <div class="add-cart-btn">加入购物车</div>
+                <div class="add-cart-btn" @click="addCart(detailDate.data.sku)">加入购物车</div>
                 <!---->
             </div>
         </div>
@@ -204,9 +211,43 @@ export default {
             detailDate:{}
         }
     },
+    computed:{
+        cartLength(){
+            return this.$store.getters.cartLength;
+        }
+    },
     methods:{
         onChange(index){
             this.current = index;
+        },
+        toCart(){
+            this.$router.push({
+                path:'/cart'
+            })
+        },
+        addCart(sku){
+            let a = this.detailDate.data;
+            let currentGoods = this.$store.state.cart.cartList.filter(item=>item.sku === sku)[0];
+            if(currentGoods){
+                currentGoods.qty ++;
+            }else{
+                let goods = {};
+                goods.goods_name = a.name;
+                goods.sku = a.sku;
+                    if (a.pricePro.vip) {
+                        goods.vip_price = a.pricePro.vip.price;
+                    } else {
+                        goods.vip_price = "";
+                    }
+                goods.noVip_price = a.pricePro.noVip.price;
+                goods.goods_image = a.image;
+                goods.goods_tag = a.promotionTags[0].name;
+                goods.qty = 1;
+                goods.stock = a.stock;
+                goods.cart_show = true;
+                // console.log(goods);
+                this.$store.commit("addCart", goods);
+            }
         }
     },
     components:{
@@ -215,7 +256,7 @@ export default {
     },
     async created(){
         let detailData = await axios.get(`http://49.232.154.155:2999/goods/detail?sku=${this.$route.query.sku}`);
-        console.log(1)
+        console.log(this.$route.query.sku)
         this.detailDate = detailData.data[0]
         // .then(response=> {
         //     console.log(response.data[0]);
@@ -225,11 +266,15 @@ export default {
         //     console.log(error);
         // });
 
-        console.log(this.detailDate.data.images)
+        console.log(detailData)
+        console.log(this.detailDate)
     }
 }
 </script>
 <style lang="scss" scoped>
+img{
+    width: auto;
+}
 .flex {
     display: -ms-flexbox;
     display: flex;
