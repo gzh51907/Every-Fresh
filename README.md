@@ -43,22 +43,19 @@ https://github.com/gzh51907/EveryDay-Fresh.git
         |   |-- public img
         |-- components
         |   |-- HelloWorld.vue
-        |-- mongoDB （mongoDB数据库目录）
+        |-- mongoDB （mongoDB数据库后台）
         |   |-- config.json
-        |   |-- index.html
-        |   |-- login.html
-        |   |-- reg.html
         |   |-- server.js
-        |   |-- try_catch.html
         |   |-- assets
         |   |-- db
         |   |   |-- index.js
         |   |   |-- mongo.js
-        |   |   |-- mysql.js
         |   |-- routers
         |   |   |-- goods.js
         |   |   |-- index.js
         |   |   |-- user.js
+        |   |   |-- cart.js
+        |   |   |-- goodslist.js
         |   |-- utils
         |       |-- index.js
         |       |-- token.js
@@ -97,3 +94,17 @@ https://github.com/gzh51907/EveryDay-Fresh.git
 * axios
 * elementUI/Vant/Swiper
 * git
+### 前端
+* Vue
+* Vue-Router
+* Vuex
+* Vue-Cli
+* axios/fetch
+* elementUI/MintUI/iView/antd
+* git
+
+### 后端
+* Nodejs
+* Express
+* MongoDB
+     
