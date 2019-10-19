@@ -2,7 +2,7 @@
  * @Description: In User Settings Edita
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-18 21:06:34
+ * @LastEditTime: 2019-10-19 10:25:50
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -53,7 +53,8 @@
             <!-- <div class="C-checkbox selected">
               <i class="C-checkbox-c"></i>
             </div>-->
-            <input type="checkbox" class="C-checkbox" v-model="checkAll" />
+            
+            <el-checkbox v-model="checkAll"></el-checkbox>
             <p class="C-group-title">2小时达</p>
             <span class="C-group-header-right">包邮</span>
           </div>
@@ -68,7 +69,7 @@
                 style="transition: -webkit-transform 200ms ease 0s;
                  transform: translate3d(0px, 0px, 0px);"
               >
-                <input type="checkbox" class="C-checkbox" v-model="checkAll" />
+                <el-checkbox v-model="checkAll"></el-checkbox>
                 <div class="P-item-image">
                   <img class="P-item-img" width="70" height="70" :src="item.goods_image" alt />
                 </div>
@@ -210,7 +211,7 @@
       </div>
       <div class="C-footer-wrap" v-if="!titleShow">
         <div class="C-footer-content flex" style="bottom:49px;">
-          <input type="checkbox" class="C-checkbox" v-model="checkAll" />
+          <el-checkbox v-model="checkAll"></el-checkbox>
           <div class="C-footer-label">全选</div>
           <div class="C-footer-price">
             <p class="C-footer-total">
@@ -238,7 +239,8 @@ export default {
       addressShow: false,
       titleShow: true,
       recommend: recommend.data.products,
-      checkAll: true
+      checkAll: true, //全选状态
+      // isIndeterminate: true
     };
   },
 
@@ -309,11 +311,15 @@ export default {
             goods.qty = 1;
             goods.stock = item.stock;
             goods.cart_show = true;
+            // goods.checkStatus = true;
           }
         });
         this.$store.commit("addCart", goods);
       }
   },
+  // ChangeCheck(sku){
+   
+  // },
     jiesuan() {
       let api = 'http://49.232.154.155:2999/cart/create';
       let userid = JSON.parse(localStorage.getItem('username'));
@@ -331,7 +337,17 @@ export default {
       })
       
       alert("购买成功");
-    }
+    },
+    // allCheck(val){
+       
+    //     // this.checkedCities = val ? cityOptions : [];
+    //     // this.isIndeterminate = false;
+    //   this.$store.state.cart.cartList.forEach(item=>{
+    //     // console.log(item.checkStatus)
+    //     item.checkStatus = this.checkAll;
+    //     console.log(item.checkStatus)
+    //   })
+    // }
   },
   computed: {
     cartLength() {
@@ -353,7 +369,13 @@ export default {
       return function(sku) {
         return this.$store.getters.getCart_show(sku);
       };
-    }
+    },
+    // getCheckStatus(){
+    //     return function(sku){
+    //       console.log(this.$store.getters.getCheckStatus(sku));
+    //       return this.$store.getters.getCheckStatus(sku);
+    //     }
+    // }
   },
   created() {
     if (this.$store.getters.cartLength) {

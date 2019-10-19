@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-15 14:19:38
- * @LastEditTime: 2019-10-18 19:09:39
+ * @LastEditTime: 2019-10-19 10:25:02
  * @LastEditors: Please set LastEditors
  */
 import axios from 'axios';
@@ -19,7 +19,7 @@ let cart = {
         totalPrice(state){ //计算总价格
             //item.normalProducts.pricePro.noVip.price ---商品价格
             //item.normalProducts.showOrder            --商品数量
-            return state.cartList.reduce((prev,item)=>prev+item.noVip_price*item.qty,0)
+            return state.cartList.reduce((prev,item)=>prev+item.noVip_price*item.qty,0);
         },
         getQty:(state)=>(sku)=>{ //获取该商品的数量
             let qty1 = '';
@@ -63,6 +63,13 @@ let cart = {
         },
         clearCart(state){
             state.cartList = [];//清空购物车
+        },
+        changeCheck(state,sku){ //修改商品的选中状态
+            state.cartList.forEach(item=>{
+                if(item.sku == sku){
+                    item.checkStatus = !item.checkStatus;
+                }
+            })
         }
     },
 
