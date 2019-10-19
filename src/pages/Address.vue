@@ -13,11 +13,11 @@
         <div class="sjr">收件人</div>
         <div class="sr">
             <div class="box1">
-                <input placeholder="请输入收件人姓名" id="addressname"></input>
+                <input  v-model="ruleForm.addressname" placeholder="请输入收件人姓名" id="addressname"></input>
             </div>
             <div class="box2">
-                <el-radio v-model="radio" label="1">女士    </el-radio>
-                <el-radio v-model="radio" label="2">先生    </el-radio>
+                <el-radio v-model="ruleForm.gender" radio label="1">女士    </el-radio>
+                <el-radio v-model="ruleForm.gender" radio label="2">先生    </el-radio>
             </div>
         </div>
       </div>
@@ -26,7 +26,7 @@
                 手机号码
             </div>
             <div class="sr2">
-                <input placeholder="请填写收货人号码" id="addressphone"></input>
+                <input v-model="ruleForm.addressphone" placeholder="请填写收货人号码" id="addressphone"></input>
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                 收货地址
             </div>
             <div class="sr3">
-                <input placeholder="请输入收货地址" id="addressaddress"></input>
+                <input v-model="ruleForm.addressaddress" placeholder="请输入收货地址" id="addressaddress"></input>
             </div>
         </div>
 
@@ -44,11 +44,11 @@
                 楼号门牌
             </div>
             <div class="sr4">
-                <input placeholder="详细地址、例如：3号楼二单元105" id="specificaddress"></input>
+                <input v-model="ruleForm.specificaddress" placeholder="详细地址、例如：3号楼二单元105" id="specificaddress"></input>
             </div>
         </div>
        
-       <el-button type="success" @click="goto('mineaddress')" style="width:100%;margin-top:50px">保存收货地址</el-button>
+       <el-button type="success" @click="tijiao" style="width:100%;margin-top:50px">保存收货地址</el-button>
 
       </el-main>
     </el-container>
@@ -71,6 +71,19 @@
         methods:{
             goto(name){
                 this.$router.push({name});
+            },
+            tijiao(){
+                this.$router.push({name:'mineaddress'});
+                let { addressname, gender, addressphone, addressaddress } = this.ruleForm;
+                let { data } =  this.$axios.get(
+                  "http://49.232.154.155:2999/user/login",
+                  {
+                    params: {
+                      username,
+                      password
+                    }
+                  }
+                );
             }
 
         }
