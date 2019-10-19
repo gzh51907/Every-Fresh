@@ -1,24 +1,22 @@
 # 项目名称
-* 每日优鲜
+* 后台系统
 
 ## 演示
-官网地址：[每日优鲜](https://www.missfresh.cn)
-上线地址：http://49.232.154.155:2001
+上线地址：http://49.232.154.155:2002
 
 ## git仓库地址
-https://github.com/gzh51907/EveryDay-Fresh.git
+https://github.com/gzh51907/houtai.git
 
 ## 团队与分工
 * 组长：吴汶峰，成员：高少强,张伟豪
-* 吴汶峰负责模块： 登录、注册、登出、我的、路由守卫
-* 高少强负责模块： 分类、发现、购物车
-* 张伟豪负责模块： 首页、列表页、详情页
+* 吴汶峰负责模块： 登录界面
+* 高少强负责模块： 后台管理系统页面
+* 张伟豪负责模块： 接口、数据库后台
 
 ## 项目页面截图
 ![avatar](/img/1.png);
 ![avatar](/img/2.png);
 ![avatar](/img/3.png);
-![avatar](/img/4.png);
 ## 项目目录说明
 |-- .gitignore
     |-- babel.config.js
@@ -37,15 +35,12 @@ https://github.com/gzh51907/EveryDay-Fresh.git
         |-- main.js
         |-- assets （静态资源目录）
         |   |-- logo.png
-        |   |-- homedatajs
-        |   |-- img3
-        |   |-- js-Data
-        |   |-- public img
         |-- components
         |   |-- HelloWorld.vue
         |-- mongoDB （mongoDB数据库后台）
         |   |-- config.json
         |   |-- server.js
+        |   |-- try_catch.html
         |   |-- assets
         |   |-- db
         |   |   |-- index.js
@@ -55,35 +50,21 @@ https://github.com/gzh51907/EveryDay-Fresh.git
         |   |   |-- index.js
         |   |   |-- user.js
         |   |   |-- cart.js
-        |   |   |-- goodslist.js
+        |   |   |-- admin.js
         |   |-- utils
         |       |-- index.js
         |       |-- token.js
         |-- pages （项目代码）
-        |   |-- AboutUs.vue
-        |   |-- Address.vue
-        |   |-- Agreement.vue
-        |   |-- Article.vue
-        |   |-- Cart.vue   （购物车模块）
-        |   |-- ceshi.html
-        |   |-- Classify.vue  （分类模块）
-        |   |-- Detail.vue
-        |   |-- Discover.vue （发现模块）
-        |   |-- Feedback.vue
-        |   |-- Help.vue
-        |   |-- Home.vue      （首页模块）
-        |   |-- Login.vue     （登录模块）
-        |   |-- Mine.vue     （我的模块）
-        |   |-- Mineaddress.vue
-        |   |-- Order.vue
-        |   |-- Privacy.vue
-        |   |-- R.vue         （注册模块）
-        |   |-- Search.vue
-        |   |-- Security.vue
+        |   |-- GoodsAdd.vue
+        |   |-- GoodsList.vue
+        |   |-- GoodsSort.vue
+        |   |-- Home.vue
+        |   |-- OrderList.vue  
+        |   |-- UserAdd.html
+        |   |-- UserList.vue  
         |-- router 
         |   |-- index.js
         |-- store
-            |-- cart.js
             |-- common.js
             |-- index.js
 ## 技术栈
@@ -92,15 +73,15 @@ https://github.com/gzh51907/EveryDay-Fresh.git
 * Vuex
 * Vue-Cli
 * axios
-* elementUI/Vant/Swiper
+* elementUI
 * git
 ### 前端
 * Vue
 * Vue-Router
 * Vuex
 * Vue-Cli
-* axios/fetch
-* elementUI/MintUI/iView/antd
+* axios
+* elementUI
 * git
 
 ### 后端
