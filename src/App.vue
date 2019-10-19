@@ -10,7 +10,7 @@
     <div class="header" v-show="!(path ==='/login' || path ==='/mine' || path ==='/privacy' || path ==='/agreement' || path === '/aboutus' || path ==='/help' || path ==='/address' || path ==='/mineaddress' || path ==='/reg' || path ==='/detail' || path === '/search' || path === '/cart') ">
       <div id="home-head" class="mall-home-head">
         <div class="adv-bar-blank-filler" style="height: 2.375rem;"></div>
-        <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 999;">
+        <div class="vux-flexbox locate-bar vux-flex-row" style="top: 0px; z-index: 10000;">
           <div
             class="vux-flexbox-item text-center location-wrap"
             style="margin-left: 8px; flex: 0 0 50%; text-align: left; padding-left: 1rem; float:left;margin-top:10px;"
