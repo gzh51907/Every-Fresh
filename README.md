@@ -43,19 +43,48 @@ https://github.com/gzh51907/EveryDay-Fresh.git
         |   |-- public img
         |-- components
         |   |-- HelloWorld.vue
+<<<<<<< HEAD
+        |-- mongoDB （mongoDB数据库后台）
+=======
+<<<<<<< HEAD
         |-- mongoDB （mongoDB数据库后台）
         |   |-- config.json
         |   |-- server.js
+=======
+        |-- mongoDB （mongoDB数据库目录）
+>>>>>>> 2fdf19e69dfe5f011afdc34e3a8382a1033e8939
+        |   |-- config.json
+        |   |-- server.js
+<<<<<<< HEAD
+=======
+        |   |-- try_catch.html
+>>>>>>> c055c050a08e93f0043a139a59a5a65334f2cf22
+>>>>>>> 2fdf19e69dfe5f011afdc34e3a8382a1033e8939
         |   |-- assets
         |   |-- db
         |   |   |-- index.js
         |   |   |-- mongo.js
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+        |   |   |-- mysql.js
+>>>>>>> c055c050a08e93f0043a139a59a5a65334f2cf22
+>>>>>>> 2fdf19e69dfe5f011afdc34e3a8382a1033e8939
         |   |-- routers
         |   |   |-- goods.js
         |   |   |-- index.js
         |   |   |-- user.js
+<<<<<<< HEAD
         |   |   |-- cart.js
         |   |   |-- goodslist.js
+=======
+<<<<<<< HEAD
+        |   |   |-- cart.js
+        |   |   |-- goodslist.js
+=======
+>>>>>>> c055c050a08e93f0043a139a59a5a65334f2cf22
+>>>>>>> 2fdf19e69dfe5f011afdc34e3a8382a1033e8939
         |   |-- utils
         |       |-- index.js
         |       |-- token.js
@@ -94,6 +123,10 @@ https://github.com/gzh51907/EveryDay-Fresh.git
 * axios
 * elementUI/Vant/Swiper
 * git
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 2fdf19e69dfe5f011afdc34e3a8382a1033e8939
 ### 前端
 * Vue
 * Vue-Router
@@ -107,4 +140,10 @@ https://github.com/gzh51907/EveryDay-Fresh.git
 * Nodejs
 * Express
 * MongoDB
+<<<<<<< HEAD
      
+=======
+     
+=======
+>>>>>>> c055c050a08e93f0043a139a59a5a65334f2cf22
+>>>>>>> 2fdf19e69dfe5f011afdc34e3a8382a1033e8939
