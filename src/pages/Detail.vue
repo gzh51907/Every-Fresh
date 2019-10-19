@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-16 16:57:41
- * @LastEditTime: 2019-10-18 11:41:19
+ * @LastEditTime: 2019-10-19 11:56:39
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -226,9 +226,27 @@ export default {
             })
         },
         addCart(sku){
-            let currentGoods = this.$store.state.cart.cartList.filter(item=>item.normalProducts.sku === sku)[0];
+            let a = this.detailDate.data;
+            let currentGoods = this.$store.state.cart.cartList.filter(item=>item.sku === sku)[0];
             if(currentGoods){
-                
+                currentGoods.qty ++;
+            }else{
+                let goods = {};
+                goods.goods_name = a.name;
+                goods.sku = a.sku;
+                    if (a.pricePro.vip) {
+                        goods.vip_price = a.pricePro.vip.price;
+                    } else {
+                        goods.vip_price = "";
+                    }
+                goods.noVip_price = a.pricePro.noVip.price;
+                goods.goods_image = a.image;
+                goods.goods_tag = a.promotionTags[0].name;
+                goods.qty = 1;
+                goods.stock = a.stock;
+                goods.cart_show = true;
+                // console.log(goods);
+                this.$store.commit("addCart", goods);
             }
         }
     },
