@@ -1,13 +1,7 @@
 <template>
   <div>
     <h1>免费注册</h1>
-    <el-form
-      :model="ruleForm"
-      :rules="rules"
-      ref="regForm"
-      status-icon
-      label-width="100px"
-    >
+    <el-form :model="ruleForm" :rules="rules" ref="regForm" status-icon label-width="100px">
       <el-form-item label="手机号" prop="username">
         <el-input v-model="ruleForm.username"></el-input>
       </el-form-item>
@@ -30,11 +24,11 @@
 export default {
   data() {
     const validatePass = (rule, value, callback) => {
-        window.console.log('validatePass',rule, value, callback)
-    //   if (value === "") {
-    //     callback(new Error("请再次输入密码"));
-    //   } else 
-      
+      window.console.log("validatePass", rule, value, callback);
+      //   if (value === "") {
+      //     callback(new Error("请再次输入密码"));
+      //   } else
+
       if (value !== this.ruleForm.password) {
         //   校验失败
         callback(new Error("两次输入密码不一致!"));
@@ -46,15 +40,17 @@ export default {
 
     // 校验用户名是否存在
     const checkUsername = async (rule, value, callback) => {
-
-      let {data} = await this.$axios.get('http://localhost:1999/user/check',{
-        params:{
-          username:this.ruleForm.username
+      let { data } = await this.$axios.get(
+        "http://49.232.154.155:2999/user/check",
+        {
+          params: {
+            username: this.ruleForm.username
+          }
         }
-      })
-      if(data.code === 0){
+      );
+      if (data.code === 0) {
         callback(new Error("该手机号已注册"));
-      }else{
+      } else {
         callback();
       }
     };
@@ -75,9 +71,9 @@ export default {
           }
         ],
         checkPass: [
-            { required: true, message: "请确认密码", trigger: "blur" },
-            { validator: validatePass, trigger: "blur" }
-            ],
+          { required: true, message: "请确认密码", trigger: "blur" },
+          { validator: validatePass, trigger: "blur" }
+        ],
         username: [
           { required: true, message: "亲，手机号必须填写哟", trigger: "blur" },
           { validator: checkUsername, trigger: "blur" }
@@ -85,38 +81,40 @@ export default {
       }
     };
   },
-  methods:{
-      submitForm() {
-        //   校验整个表单
-        this.$refs.regForm.validate(async (valid) => {
-            // valid： 所有校验规则都通过后，得到true，只要有一个表单元素校验不通过则得到form
-          if (valid) {
-            // alert('submit!');
-            // 发起ajax请求，等待服务器返回结果
-            // 根据服务器返回结果：注册成功->跳到“我的”
+  methods: {
+    submitForm() {
+      //   校验整个表单
+      this.$refs.regForm.validate(async valid => {
+        // valid： 所有校验规则都通过后，得到true，只要有一个表单元素校验不通过则得到form
+        if (valid) {
+          // alert('submit!');
+          // 发起ajax请求，等待服务器返回结果
+          // 根据服务器返回结果：注册成功->跳到“我的”
 
-            let {username,password} = this.ruleForm
+          let { username, password } = this.ruleForm;
 
-            let {data} = await this.$axios.post('http://49.232.154.155:2999/user/reg',{
+          let { data } = await this.$axios.post(
+            "http://49.232.154.155:2999/user/reg",
+            {
               username,
               password
-            });
-            console.log('data:',data)
-
-            // this.$router.replace('/mine')
-            if(data.code===1){
-
-              this.$router.replace({name:'login'})
-              // this.$router.replace({path:'/mine',params:{username}})
-            }else{
-              alert('注册失败');
             }
+          );
+          console.log("data:", data);
+
+          // this.$router.replace('/mine')
+          if (data.code === 1) {
+            this.$router.replace({ name: "login" });
+            // this.$router.replace({path:'/mine',params:{username}})
           } else {
-            window.console.log('error submit!!');
-            return false;
+            alert("注册失败");
           }
-        });
-      },
+        } else {
+          window.console.log("error submit!!");
+          return false;
+        }
+      });
+    }
   }
 };
 </script>
