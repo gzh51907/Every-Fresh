@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-10 17:05:33
- * @LastEditTime: 2019-10-18 19:19:41
+ * @LastEditTime: 2019-10-26 11:23:48
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -19,7 +19,7 @@
           </van-sidebar>
         </div>
         <!-- </div> -->
-        <div class="right-con">
+        <div class="right-con" ref='rightCon'>
           <!-- <van-tab v-for="item in classify.secondGroupInfo" :title="item.name" :key="item.name"> -->
           <!-- <div class="product-item" v-for='(item,index) in item' v-if="item.cellType==5" :key="index">
                 
@@ -28,7 +28,7 @@
             <div class="list-container">
               <div
                 class="item-span"
-                @click="toGoods(classify.secondGroupInfo)"
+                @click="toGoods(item.secondGroupId)"
                 v-for="item in classify.secondGroupInfo"
                 :key="item.name"
                 :data-second-group-id="item.secondGroupId"
@@ -46,7 +46,7 @@
               <div
                 class="category-title"
                 v-if="item.cellType==5"
-                :data-id="item.secondGroup"
+                :name="item.secondGroupId"
               >{{item.titleInfo.title}}</div>
               <div class="product-item-box" v-if="item.cellType==7">
                 <div class="line">
@@ -146,6 +146,7 @@ import c16 from "../assets/js-Data/c16";
 import c17 from "../assets/js-Data/c17";
 import c18 from "../assets/js-Data/c18";
 import c19 from "../assets/js-Data/c19";
+
 // console.log(c1);
 export default {
   data() {
@@ -275,13 +276,13 @@ export default {
   
     },
     toGoods(groupId) {
+      console.log(this)
       let groups = document.getElementsByClassName("category-title");
-
       let newGroups = Array.from(groups);
       newGroups.forEach(item => {
-        console.log(item.getAttribute("data-id"));
-        if (item.dataset.secondGroupId == groupId) {
-          console.log(item);
+        if (item.getAttribute('name') == groupId) {
+          item.scrollIntoView({block:'start',behavior:'smooth'});
+          
         }
       });
     }
@@ -289,7 +290,6 @@ export default {
   created() {
     this.categoryData = categoryList.categoryList.data;
     this.classify = c1.c1.data;
-    console.log(this.classify)
   }
 };
 </script>
@@ -340,9 +340,9 @@ body {
         .fold-category-container {
           background-color: #fff;
           width: 17.125rem;
-          position: relative;
+          position: fixed;
           // top: 20px;
-          // z-index: 99;
+          z-index: 99;
           .list-container {
             position: relative;
             height: 2.25rem;
@@ -354,6 +354,14 @@ body {
             .item-span {
               font-size: 0.75rem;
               color: #474245;
+              height: 2.25rem;
+              line-height: 2.25rem;
+              padding: 0 0.625rem;
+              white-space: nowrap;
+            }
+            .active-item{
+              font-size: 0.75rem;
+              color: #2f80c2;
               height: 2.25rem;
               line-height: 2.25rem;
               padding: 0 0.625rem;
@@ -383,6 +391,7 @@ body {
           overflow-x: hidden;
           overflow-y: scroll;
           flex: 1;
+          top: 36px;
           .product-item {
             color: #fff;
             .category-title {
